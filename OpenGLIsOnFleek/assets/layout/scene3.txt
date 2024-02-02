@@ -1,0 +1,13 @@
+xwing3.ply, 140, 60, 500, 1.55, 0, 0, 1
+TrenchRunply2.ply, 0, 0, 0, 0, 0, 0, 1
+
+Sphere_1_unit_Radius_xyz_n_rgba_uv.ply, 136.65, 60.84, 1197.6, 0, 0, 0, 0.1
+Sphere_1_unit_Radius_xyz_n_rgba_uv.ply, 136.65, 58.91, 1197.6, 0, 0, 0, 0.1
+Sphere_1_unit_Radius_xyz_n_rgba_uv.ply, 143.43, 60.84, 1197.6, 0, 0, 0, 0.1
+Sphere_1_unit_Radius_xyz_n_rgba_uv.ply, 143.43, 58.91, 1197.6, 0, 0, 0, 0.1
+
+Sphere_1_unit_Radius_xyz_n_rgba_uv.ply, 140.05, 59.7, 1195.2, 1.55, 0, 0, 0.35
+Sphere_1_unit_Radius_xyz_n_rgba_uv.ply, 140.05, 59.7, 1203.7, 1.55, 0, 0, 0.35
+
+camera, 140, 60, 550, 140, 60, 404, 0
+

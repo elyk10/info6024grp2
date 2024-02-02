@@ -1,0 +1,8 @@
+bun_zipper_res2_xyz_n_rgba.ply
+-1 0 0
+bun_zipper_res2_xyz_n_rgba.ply
+1 0 0
+bun_zipper_res2_xyz_n_rgba.ply
+2 0 0
+bathtub_xyz_n_rgba.ply
+0 0 0

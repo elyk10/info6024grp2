@@ -1,0 +1,257 @@
+
+
+Big_Flat_Mesh_256x256_12_5_xyz_n_rgba_uv.ply, 0, 0, -50, 0, 0, 0, 1.5
+
+
+SM_Env_GrassPatch_01.ply, 0, 0, 0, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 20, 0, 0, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 0, 0, 20, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 0, 0, -20, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -20, 0, 0, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -20, 0, -20, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 20, 0, 20, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 20, 0, -20, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -20, 0, 20, 0, 0, 0, 10
+
+SM_Env_GrassPatch_01.ply, 60, 0, 0, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 80, 0, 0, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 60, 0, 20, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 60, 0, -20, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 40, 0, 0, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 40, 0, -20, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 80, 0, 20, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 80, 0, -20, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 40, 0, 20, 0, 0, 0, 10
+
+SM_Env_GrassPatch_01.ply, -60, 0, 0, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -80, 0, 0, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -60, 0, 20, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -60, 0, -20, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -40, 0, 0, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -40, 0, -20, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -80, 0, 20, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -80, 0, -20, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -40, 0, 20, 0, 0, 0, 10
+
+SM_Env_GrassPatch_01.ply, 0, 0, 60, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 20, 0, 60, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 0, 0, 80, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 0, 0, 100, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 20, 0, 100, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 40, 0, 100, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 30, 0, 120, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 0, 0, 40, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -20, 0, 60, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -20, 0, 40, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 20, 0, 80, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 20, 0, 40, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -20, 0, 80, 0, 0, 0, 10
+
+SM_Env_GrassPatch_01.ply, 60, 0, 60, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 80, 0, 60, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 60, 0, 80, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 60, 0, 40, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 40, 0, 60, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 40, 0, 40, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 80, 0, 80, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 80, 0, 40, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 40, 0, 80, 0, 0, 0, 10
+
+SM_Env_GrassPatch_01.ply, -60, 0, 40, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -40, 0, 60, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -40, 0, 40, 0, 0, 0, 10
+
+SM_Env_GrassPatch_01.ply, -80, 0, 40, 0, 0, 0, 10
+
+SM_Env_GrassPatch_01.ply, 0, 0, -60, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 20, 0, -60, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 0, 0, -80, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 0, 0, -40, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -20, 0, -60, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -20, 0, -40, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 20, 0, -80, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 20, 0, -40, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -20, 0, -80, 0, 0, 0, 10
+
+SM_Env_GrassPatch_01.ply, 60, 0, -60, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 80, 0, -60, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 60, 0, -80, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 60, 0, -40, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 40, 0, -60, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 40, 0, -40, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 80, 0, -80, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 80, 0, -40, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 40, 0, -80, 0, 0, 0, 10
+
+SM_Env_GrassPatch_01.ply, -60, 0, -60, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -80, 0, -60, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -60, 0, -80, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -60, 0, -40, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -40, 0, -60, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -40, 0, -40, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -80, 0, -80, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -80, 0, -40, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -40, 0, -80, 0, 0, 0, 10
+
+SM_Env_GrassPatch_01.ply, 100, 0, 0, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 100, 0, 20, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 100, 0, -20, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 100, 0, 80, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 100, 0, 40, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 100, 0, 60, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 100, 0, -80, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 100, 0, -40, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 100, 0, -60, 0, 0, 0, 10
+
+SM_Env_GrassPatch_01.ply, 120, 0, 0, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 120, 0, 20, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 120, 0, -20, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 120, 0, 80, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 120, 0, 40, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 120, 0, 60, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 120, 0, -80, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 120, 0, -40, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 120, 0, -60, 0, 0, 0, 10
+
+SM_Env_GrassPatch_01.ply, 140, 0, 0, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 140, 0, 20, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 140, 0, -20, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 140, 0, 80, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 140, 0, 40, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 140, 0, 60, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 140, 0, -80, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 140, 0, -40, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 140, 0, -60, 0, 0, 0, 10
+
+SM_Env_GrassPatch_01.ply, 160, 0, 0, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 160, 0, 20, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 160, 0, -20, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 160, 0, 40, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 160, 0, 60, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 160, 0, -40, 0, 0, 0, 10
+
+SM_Env_GrassPatch_01.ply, -100, 0, 40, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -100, 0, -40, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -100, 0, -80, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -100, 0, -60, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -100, 0, 20, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -100, 0, -20, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -100, 0, 0, 0, 0, 0, 10
+
+SM_Env_GrassPatch_01.ply, -130, 0, 60, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -110, 0, 60, 0, 0, 0, 10
+
+SM_Env_GrassPatch_01.ply, -120, 0, 40, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -120, 0, -40, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -120, 0, -80, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -120, 0, -60, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -120, 0, 20, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -120, 0, -20, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -120, 0, 0, 0, 0, 0, 10
+
+SM_Env_GrassPatch_01.ply, -120, 0, -100, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -120, 0, -120, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -100, 0, -100, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -100, 0, -120, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -80, 0, -100, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -80, 0, -120, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -60, 0, -100, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -60, 0, -120, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -40, 0, -100, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -40, 0, -120, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -20, 0, -100, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -20, 0, -120, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 0, 0, -100, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 0, 0, -120, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 20, 0, -100, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 20, 0, -120, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 40, 0, -100, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 40, 0, -120, 0, 0, 0, 10
+
+SM_Env_GrassPatch_01.ply, -80, 0, -180, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -60, 0, -180, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -100, 0, -140, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -80, 0, -160, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -80, 0, -140, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -60, 0, -160, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -60, 0, -140, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -40, 0, -160, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -40, 0, -140, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -20, 0, -160, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -20, 0, -140, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 0, 0, -160, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 0, 0, -140, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, 20, 0, -140, 0, 0, 0, 10
+
+SM_Env_GrassPatch_01.ply, -140, 0, -110, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -140, 0, 0, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -140, 0, -20, 0, 0, 0, 10
+SM_Env_GrassPatch_01.ply, -140, 0, -40, 0, 0, 0, 10
+
+SM_Env_Grass_Tuft_04.ply, 2, 0, 3, 0, 0, 0, 0.1
+SM_Env_Grass_Tuft_04.ply, 11, 0, 17, 0, 0, 0, 0.1
+SM_Env_Grass_Tuft_04.ply, 18, 0, 6, 0, 0, 0, 0.1
+SM_Env_Grass_Tuft_04.ply, 26, 0, -8, 0, 0, 0, 0.1
+SM_Env_Grass_Tuft_04.ply, -16, 0, -3, 0, 0, 0, 0.1
+SM_Env_Grass_Tuft_04.ply, -28, 0, 33, 0, 0, 0, 0.1
+SM_Env_Grass_Tuft_04.ply, 37, 0, -35, 0, 0, 0, 0.1
+SM_Env_Grass_Tuft_04.ply, 42, 0, 25, 0, 0, 0, 0.1
+SM_Env_Grass_Tuft_04.ply, -63, 0, -64, 0, 0, 0, 0.08
+SM_Env_Grass_Tuft_04.ply, 72, 0, -23, 0, 0, 0, 0.08
+SM_Env_Grass_Tuft_04.ply, -72, 0, -23, 0, 0, 0, 0.08
+SM_Env_Grass_Tuft_04.ply, -89, 0, 23, 0, 0, 0, 0.08
+SM_Env_Grass_Tuft_04.ply, -62, 0, 44, 0, 0, 0, 0.08
+SM_Env_Grass_Tuft_04.ply, 101, 0, -63, 0, 0, 0, 0.06
+SM_Env_Grass_Tuft_04.ply, -98, 0, 23, 0, 0, 0, 0.08
+SM_Env_Grass_Tuft_04.ply, 0, 0, -43, 0, 0, 0, 0.06
+SM_Env_Grass_Tuft_04.ply, 0, 0, 52, 0, 0, 0, 0.06
+SM_Env_Grass_Tuft_04.ply, 20, 0, 61, 0, 0, 0, 0.08
+SM_Env_Grass_Tuft_04.ply, -23, 0, -44, 0, 0, 0, 0.08
+SM_Env_Grass_Tuft_04.ply, 113, 0, 33, 0, 0, 0, 0.08
+SM_Env_Grass_Tuft_04.ply, 126, 0, -13, 0, 0, 0, 0.08
+SM_Env_Grass_Tuft_04.ply, 123, 0, 56, 0, 0, 0, 0.08
+SM_Env_Grass_Tuft_04.ply, 134, 0, -66, 0, 0, 0, 0.08
+SM_Env_Grass_Tuft_04.ply, 135, 0, 23, 0, 0, 0, 0.08
+SM_Env_Grass_Tuft_04.ply, 105, 0, -53, 0, 0, 0, 0.08
+SM_Env_Grass_Tuft_04.ply, 79, 0, 64, 0, 0, 0, 0.08
+SM_Env_Grass_Tuft_04.ply, 72, 0, 11, 0, 0, 0, 0.08
+
+SM_Prop_Barrel_01 (2).ply, -89, 3, -63, 0, 0, 1.55, 10
+SM_Prop_Barrel_02 (2).ply, 9, 0, 9, 0, 0, 0, 10
+SM_Prop_Barrel_04.ply, 6, 0, 17, 0, 0, 0, 10
+SM_Prop_Barrel_05.ply, 17, 0, 8.5, 0, 0, 0, 10
+
+SM_Env_PalmTree_01.ply, 3, 0, 0, 0, 0, 0, 10
+SM_Env_PalmTree_01.ply, 18, 0, -15, 0, 180, 0, 10
+SM_Env_PalmTree_02.ply, -4, 0, 4, 0, 0, 0, 10
+SM_Env_PalmTree_02.ply, -62, 0, 23, 0, 45, 0, 8
+
+SM_Env_PalmTree_02.ply, 77, 0, 43, 0, 45, 0, 9.5
+SM_Env_PalmTree_02.ply, 93, 0, -19, 0, 45, 0, 9
+SM_Env_PalmTree_01.ply, 9, 0, -38, 0, 90, 0, 7.6
+SM_Env_PalmTree_01.ply, 72, 0, -29, 0, 90, 0, 7.9
+SM_Env_PalmTree_01.ply, -54, 0, 34, 0, 90, 0, 8.3
+
+SM_Env_PalmTree_02.ply, -73, 0, -54, 0, 36, 0, 9
+SM_Env_PalmTree_01.ply, -64, 0, -62, 0, 40, 0, 7.6
+
+SM_Prop_Skeleton_Ground_01.ply, 100, 3, 50, 0, 0, 0, 10
+SM_Prop_Skeleton_Chest_02.ply, 24, 3, 12, 0, 180, 0, 10
+SM_Prop_Skeleton_Ground_03.ply, -24, 3, 42, 0, 0, 0, 10
+
+SM_Env_Camp_Well_01.ply, -82, 5, -54, 0, 0, 0, 0.03
+
+SM_Item_Bottle_01.ply, 17, 11, 8.5, 0, 0, 0, 10
+SM_Item_Bottle_01.ply, 16, 11, 8, 0, 0, 0, 10
+SM_Item_Bottle_02.ply, 9, 10, 8, 0, 0, 0, 10
+SM_Item_Bottle_03.ply, 10.5, 10, 8.7, 0, 0, 0, 10
+SM_Item_Bottle_04.ply, 16, 11, 9.5, 0, 0, 0, 10
+
+SM_Item_Candle_01.ply, 5.7, 8, 16.3, 0, 0, 0, 10
+
+Big_Flat_Mesh_256x256_04_8K_xyz_n_rgba_uv.ply, 5.65, 11.8, 16.2, 0, 0, -1.55, 0.005
+Big_Flat_Mesh_256x256_04_8K_xyz_n_rgba_uv.ply, -82, 8, -54, 0, 0, -1.55, 0.025
+
+
+
+
