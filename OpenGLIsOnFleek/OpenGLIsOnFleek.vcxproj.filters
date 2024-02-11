@@ -55,6 +55,9 @@
     <Filter Include="LayoutLoader">
       <UniqueIdentifier>{7811ae0f-c941-4b94-8fe4-1808bc654475}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PlayerObjects">
+      <UniqueIdentifier>{be23fe2f-c721-43d8-ae27-02681397f5db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="theMain.cpp">
@@ -147,6 +150,9 @@
     <ClCompile Include="cLayoutLoader.cpp">
       <Filter>LayoutLoader</Filter>
     </ClCompile>
+    <ClCompile Include="cPlayer.cpp">
+      <Filter>PlayerObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Basic Shader Manager\cShaderManager.h">
@@ -232,6 +238,9 @@
     </ClInclude>
     <ClInclude Include="cLayoutLoader.h">
       <Filter>LayoutLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="cPlayer.h">
+      <Filter>PlayerObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

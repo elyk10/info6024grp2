@@ -117,7 +117,7 @@ bool LoadModels(void)
 
     cMesh* pBathtub = new cMesh();
     pBathtub->meshName = "SM_Prop_Barrel_03 (2).ply";
-    pBathtub->friendlyName = "bathtub";
+    pBathtub->friendlyName = "player"; 
     pBathtub->setUniformDrawScale(3.0f);
 //    pBathtub->setRotationFromEuler(glm::vec3(45.0f, 0.0f, 0.0f));
     pBathtub->drawPosition = glm::vec3(0.0f, 30.0f, 161.0f);

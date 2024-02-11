@@ -155,6 +155,7 @@
     <ClCompile Include="cPhysics_BasicTests.cpp" />
     <ClCompile Include="cPhysics_IntersectionTests.cpp" />
     <ClCompile Include="cPhysics_Update.cpp" />
+    <ClCompile Include="cPlayer.cpp" />
     <ClCompile Include="cVAOManager\cVAOManager.cpp" />
     <ClCompile Include="cVAOManager\sModelDrawInfo.cpp" />
     <ClCompile Include="glad.c" />
@@ -191,6 +192,7 @@
     <ClInclude Include="cLightManager.h" />
     <ClInclude Include="cMesh.h" />
     <ClInclude Include="cPhysics.h" />
+    <ClInclude Include="cPlayer.h" />
     <ClInclude Include="iCommand.h" />
     <ClInclude Include="LuaBrain\cLuaBrain.h" />
     <ClInclude Include="sTriangle.h" />

@@ -6,6 +6,9 @@
 #include "cMesh.h"
 #include "cLightManager.h"
 #include "cGlobal.h"
+#include "cPlayer.h"
+
+#include "cHiResTimer.h"
 
 #include "LuaBrain/cLuaBrain.h"
 
@@ -18,6 +21,8 @@ extern glm::vec3 g_cameraFront;
 extern glm::vec3 g_upVector;
 extern double deltaTime;
 
+extern cPlayer* thePlayer;
+
 extern cLightManager* g_pTheLights;
 extern int g_selectedLight;// = 0;
 
@@ -25,7 +30,7 @@ bool SaveVectorSceneToFile(std::string saveFileName);
 
 extern bool wireMeshes = false;
 bool cameraLock = false;
-extern bool thirdPersonView; 
+extern bool thirdPersonView;
 
 // HACK:
 extern float g_HeightAdjust; //= 10.0f;
@@ -36,16 +41,16 @@ extern cLuaBrain g_LuaBrain;
 // Silly function binding example
 //void ChangeTaylorSwiftTexture(std::string newTexture);
 
-float CAMERA_MOVEMENT_SPEED = 1.0f; 
+float CAMERA_MOVEMENT_SPEED = 1.0f;
 const float OBJECT_MOVEMENT_SPEED = 0.01f;
 
-const float LIGHT_MOVEMENT_SPEED = 1.0f; 
+const float LIGHT_MOVEMENT_SPEED = 1.0f;
 
-
+cHiResTimer* p_HRTimer = new cHiResTimer(60);
 
 double prevxpos;
 double prevypos;
-const float ANGLE_OFFSET_CAMERA = 0.008f; 
+const float ANGLE_OFFSET_CAMERA = 0.008f;
 const double mouseSensitivity = 0.05f;
 float CAMERA_TARGET_OFFSET = 20.0f;
 
@@ -78,15 +83,16 @@ void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
         yaw += xoffset;
         pitch += yoffset;
 
-        if (pitch > 89.0f)
-            pitch = 89.0f;
-        if (pitch < -89.0f)
-            pitch = -89.0f;
+        if (pitch > 50.0f) //89.0f is base
+            pitch = 50.0f;
+        if (pitch < -9.0f) //-89.0f is base
+            pitch = -9.0f;
+
 
 
         if (!thirdPersonView)
         {
-          
+
             glm::vec3 direction;
             direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
             direction.y = sin(glm::radians(pitch));
@@ -96,14 +102,24 @@ void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
         }
         else
         {
-            
+
             glm::vec3 direction;
             direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
             direction.y = sin(glm::radians(pitch));
-            direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch)); 
+            direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+
+            glm::vec3 temp = glm::vec3(0.0f);
+            temp.x = direction.x;
+            temp.z = direction.z;
+            glm::normalize(temp);
+
+            // adjust the angle of the player with the camera
+            thePlayer->theMesh->setDrawOrientation(glm::quatLookAt(temp, glm::vec3(0.0f, 1.0f, 0.0f)));
+            // thePlayer->forward = temp;
+
             ::g_cameraFront = glm::normalize(direction);
             direction = (glm::normalize(direction)) * CAMERA_TARGET_OFFSET;
-            ::g_cameraEye = direction + ::g_cameraTarget;
+            ::g_cameraEye = direction + thePlayer->theMesh->drawPosition;
             //std::cout << "CameraEye: " << g_cameraEye.x << ", " << g_cameraEye.y << ", " << g_cameraEye.z << std::endl;
 
         }
@@ -124,7 +140,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         SaveVectorSceneToFile("myscene.txt");
     }
 
-    if ( key == GLFW_KEY_H )
+    if (key == GLFW_KEY_H)
     {
         // Now I can't directly call this function, but we CAN call it through Lua
 //        ChangeTaylorSwiftTexture("SpidermanUV_square.bmp");
@@ -164,17 +180,17 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         // The downward slash at the end here tell C that the string continues.
         std::string luaScriptOneLine
             = "bIsValid, x, y, z = GetMeshPositionByFriendlyName('bathtub')\n"  \
-              "if bIsValid then\n"                                                \
-              "   x = x - 0.1\n"                                                  \
-              "   y = y + 0.15\n"                                                  \
-              "   SetMeshPositionByFriendlyName('bathtub', x, y, z )"             \
-             "end";
+            "if bIsValid then\n"                                                \
+            "   x = x - 0.1\n"                                                  \
+            "   y = y + 0.15\n"                                                  \
+            "   SetMeshPositionByFriendlyName('bathtub', x, y, z )"             \
+            "end";
 
 
         g_LuaBrain.RunScriptImmediately(luaScriptOneLine.c_str());
     }
 
-    
+
 
     // Is the shift key down
     if (mods == GLFW_MOD_SHIFT)
@@ -200,7 +216,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         if (key == GLFW_KEY_M && action) // switch to wire frame meshes
         {
             wireMeshes = !wireMeshes;
-            
+
             for (auto mesh : ::g_vec_pMeshesToDraw)
             {
                 mesh->bIsWireframe = wireMeshes;
@@ -218,28 +234,28 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     if ((mods & GLFW_MOD_CONTROL) == GLFW_MOD_CONTROL)
     {
         // Adjust height of terrain
-        if ( key == GLFW_KEY_U )
+        if (key == GLFW_KEY_U)
         {
             ::g_HeightAdjust += 0.1;
         }
-        if ( key == GLFW_KEY_J )
+        if (key == GLFW_KEY_J)
         {
             ::g_HeightAdjust -= 0.1;
         }
 
-        if ( key == GLFW_KEY_LEFT )
+        if (key == GLFW_KEY_LEFT)
         {
             ::g_UVOffset.x -= 0.01f;
         }
-        if ( key == GLFW_KEY_RIGHT )
+        if (key == GLFW_KEY_RIGHT)
         {
             ::g_UVOffset.x += 0.01f;
         }
-        if ( key == GLFW_KEY_UP )
+        if (key == GLFW_KEY_UP)
         {
             ::g_UVOffset.y -= 0.01f;
         }
-        if ( key == GLFW_KEY_DOWN )
+        if (key == GLFW_KEY_DOWN)
         {
             ::g_UVOffset.y += 0.01f;
         }
@@ -247,79 +263,79 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
         // Shift key down (ignores other keys)
 
-        if (key == GLFW_KEY_A )
+        if (key == GLFW_KEY_A)
         {
             ::g_pTheLights->theLights[::g_selectedLight].position.x -= LIGHT_MOVEMENT_SPEED;
         }
-        if (key == GLFW_KEY_D )
+        if (key == GLFW_KEY_D)
         {
             ::g_pTheLights->theLights[::g_selectedLight].position.x += LIGHT_MOVEMENT_SPEED;
         }
 
-        if (key == GLFW_KEY_W )
+        if (key == GLFW_KEY_W)
         {
             ::g_pTheLights->theLights[::g_selectedLight].position.z += LIGHT_MOVEMENT_SPEED;
         }
-        if (key == GLFW_KEY_S )
+        if (key == GLFW_KEY_S)
         {
             ::g_pTheLights->theLights[::g_selectedLight].position.z -= LIGHT_MOVEMENT_SPEED;
         }
 
 
-        if (key == GLFW_KEY_Q )
+        if (key == GLFW_KEY_Q)
         {
             ::g_pTheLights->theLights[::g_selectedLight].position.y -= LIGHT_MOVEMENT_SPEED;
         }
-        if (key == GLFW_KEY_E )
+        if (key == GLFW_KEY_E)
         {
             ::g_pTheLights->theLights[::g_selectedLight].position.y += LIGHT_MOVEMENT_SPEED;
         }
-        
+
         // Linear attenuation 
-        if (key == GLFW_KEY_1 )
+        if (key == GLFW_KEY_1)
         {
             ::g_pTheLights->theLights[::g_selectedLight].atten.y *= 0.99f;      // Less 1%
         }
-        if (key == GLFW_KEY_2 )
+        if (key == GLFW_KEY_2)
         {
             ::g_pTheLights->theLights[::g_selectedLight].atten.y *= 1.01f;      // 1% more
         }
 
         // quadratic attenuation 
-        if (key == GLFW_KEY_3 )
+        if (key == GLFW_KEY_3)
         {
             ::g_pTheLights->theLights[::g_selectedLight].atten.z *= 0.99f;      // Less 1%
         }
-        if (key == GLFW_KEY_4 )
+        if (key == GLFW_KEY_4)
         {
             ::g_pTheLights->theLights[::g_selectedLight].atten.z *= 1.01f;      // 1% more
         }
 
         // 5 & 8 are outter angle
-        if (key == GLFW_KEY_5 )
+        if (key == GLFW_KEY_5)
         {
             ::g_pTheLights->theLights[::g_selectedLight].param1.z -= 0.1f;      // 0.1 degree
         }
-        if (key == GLFW_KEY_8 )
+        if (key == GLFW_KEY_8)
         {
             ::g_pTheLights->theLights[::g_selectedLight].param1.z += 0.1f;      // 0.1 degree
         }
         // 6 & 7 are inner angle
-        if (key == GLFW_KEY_6 )
+        if (key == GLFW_KEY_6)
         {
             ::g_pTheLights->theLights[::g_selectedLight].param1.y -= 0.1f;      // 0.1 degree
         }
-        if (key == GLFW_KEY_7 )
+        if (key == GLFW_KEY_7)
         {
             ::g_pTheLights->theLights[::g_selectedLight].param1.y += 0.1f;      // 0.1 degree
         }
 
         // quadratic attenuation 
-        if (key == GLFW_KEY_9 )
+        if (key == GLFW_KEY_9)
         {
             ::g_drawDebugLightSpheres = true;
         }
-        if (key == GLFW_KEY_0 )
+        if (key == GLFW_KEY_0)
         {
             ::g_drawDebugLightSpheres = false;
         }
@@ -381,7 +397,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 //            std::cout << "Selcted model: " << ::g_selectedMesh << std::endl;
 //        }
 //    }
-    
+
 
     // Nothing down
     if (mods == 0)
@@ -424,46 +440,76 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
             }
             else // third person
             {
+                deltaTime = p_HRTimer->getFrameTime();
+
                 if (key == GLFW_KEY_A && action) // left 
                 {
-                    glm::vec3 movement = glm::normalize(glm::cross(::g_cameraTarget - ::g_cameraEye, ::g_upVector)) * CAMERA_MOVEMENT_SPEED;
-                    ::g_cameraEye -= movement;
-                    ::g_cameraTarget -= movement;
+                    glm::vec3 movement = glm::normalize(glm::cross(thePlayer->theMesh->drawPosition - ::g_cameraEye, ::g_upVector)) * thePlayer->speed * (float)deltaTime;
+                    ::g_cameraEye.x -= movement.x;
+                    ::g_cameraEye.z -= movement.z;
+                    ::g_cameraTarget.x -= movement.x;
+                    ::g_cameraTarget.z -= movement.z;
+
+                    thePlayer->theMesh->drawPosition.x -= movement.x;
+                    thePlayer->theMesh->drawPosition.z -= movement.z;
+
+                    thePlayer->moveDir = movement * (-1.0f);
                 }
                 if (key == GLFW_KEY_D && action) // right 
                 {
-                    glm::vec3 movement = glm::normalize(glm::cross(::g_cameraTarget - ::g_cameraEye, ::g_upVector)) * CAMERA_MOVEMENT_SPEED;
-                    ::g_cameraEye += movement;
-                    ::g_cameraTarget += movement;
+                    glm::vec3 movement = glm::normalize(glm::cross(thePlayer->theMesh->drawPosition - ::g_cameraEye, ::g_upVector)) * thePlayer->speed * (float)deltaTime;
+                    ::g_cameraEye.x += movement.x;
+                    ::g_cameraEye.z += movement.z;
+                    ::g_cameraTarget.x += movement.x;
+                    ::g_cameraTarget.z += movement.z;
+
+                    thePlayer->theMesh->drawPosition.x += movement.x;
+                    thePlayer->theMesh->drawPosition.z += movement.z;
+
+                    thePlayer->moveDir = movement;
                 }
                 if (key == GLFW_KEY_W && action) // forward 
                 {
-                    glm::vec3 movement = glm::normalize(::g_cameraTarget - ::g_cameraEye) * CAMERA_MOVEMENT_SPEED;
-                    ::g_cameraEye += movement;
-                    ::g_cameraTarget += movement;
+                    glm::vec3 movement = glm::normalize(thePlayer->theMesh->drawPosition - ::g_cameraEye) * thePlayer->speed * (float)deltaTime;
+                    ::g_cameraEye.x += movement.x;
+                    ::g_cameraEye.z += movement.z;
+                    ::g_cameraTarget.x += movement.x;
+                    ::g_cameraTarget.z += movement.z;
+
+                    thePlayer->theMesh->drawPosition.x += movement.x;
+                    thePlayer->theMesh->drawPosition.z += movement.z;
+
+                    thePlayer->moveDir = movement;
                 }
                 if (key == GLFW_KEY_S && action) // backwards 
                 {
-                    glm::vec3 movement = glm::normalize(::g_cameraTarget - ::g_cameraEye) * CAMERA_MOVEMENT_SPEED;
-                    ::g_cameraEye -= movement;
-                    ::g_cameraTarget -= movement;
+                    glm::vec3 movement = glm::normalize(thePlayer->theMesh->drawPosition - ::g_cameraEye) * thePlayer->speed * (float)deltaTime;
+                    ::g_cameraEye.x -= movement.x;
+                    ::g_cameraEye.z -= movement.z;
+                    ::g_cameraTarget.x -= movement.x;
+                    ::g_cameraTarget.z -= movement.z;
+
+                    thePlayer->theMesh->drawPosition.x -= movement.x;
+                    thePlayer->theMesh->drawPosition.z -= movement.z;
+
+                    thePlayer->moveDir = movement * (-1.0f);
                 }
 
 
                 if (key == GLFW_KEY_Q && action) // up 
                 {
-                    ::g_cameraEye.y -= CAMERA_MOVEMENT_SPEED; 
-                    ::g_cameraTarget.y -= CAMERA_MOVEMENT_SPEED; 
+                    ::g_cameraEye.y -= CAMERA_MOVEMENT_SPEED;
+                    ::g_cameraTarget.y -= CAMERA_MOVEMENT_SPEED;
                 }
                 if (key == GLFW_KEY_E && action) // down 
                 {
-                    ::g_cameraEye.y += CAMERA_MOVEMENT_SPEED; 
-                    ::g_cameraTarget.y += CAMERA_MOVEMENT_SPEED; 
-                } 
+                    ::g_cameraEye.y += CAMERA_MOVEMENT_SPEED;
+                    ::g_cameraTarget.y += CAMERA_MOVEMENT_SPEED;
+                }
             }
         }
 
-        
+
     }// if ( ( mods & GLFW_MOD_SHIFT ) == GLFW_MOD_SHIFT )
 
 

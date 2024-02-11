@@ -33,6 +33,7 @@
 #include "GLWF_CallBacks.h" // keyboard and mouse input
 
 #include "cMesh.h"
+#include "cPlayer.h"
 //#include "sPhsyicsProperties.h"
 #include "cPhysics.h"
 
@@ -54,9 +55,11 @@ glm::vec3 g_cameraTarget = glm::vec3(0.0f, 30.0f, 161.0f);
 glm::vec3 g_upVector = glm::vec3(0.0f, 1.0f, 0.0f);
 glm::vec3 g_cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 
+cPlayer* thePlayer = NULL; 
+
 double deltaTime = 0.0;
 
-bool thirdPersonView = false;
+bool thirdPersonView = true; 
 
 cVAOManager* g_pMeshManager = NULL;
 
@@ -487,6 +490,15 @@ int main(void)
 
     // 
     LoadModels();
+
+    cMesh* playerMesh = ::g_pFindMeshByFriendlyName("player");
+
+    if (playerMesh)
+    {
+        thePlayer = new cPlayer(playerMesh);
+        thePlayer->speed = 30.0f;
+        thePlayer->moveDir = glm::vec3(0.0f);
+    } 
 
 //    LoadTheRobotronModels(shaderProgramID);
 
