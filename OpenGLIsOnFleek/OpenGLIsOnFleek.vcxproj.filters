@@ -58,6 +58,9 @@
     <Filter Include="PlayerObjects">
       <UniqueIdentifier>{be23fe2f-c721-43d8-ae27-02681397f5db}</UniqueIdentifier>
     </Filter>
+    <Filter Include="cJSONLoader">
+      <UniqueIdentifier>{32412be0-d383-4e00-9dc4-8f864d66add9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="theMain.cpp">
@@ -153,6 +156,9 @@
     <ClCompile Include="cPlayer.cpp">
       <Filter>PlayerObjects</Filter>
     </ClCompile>
+    <ClCompile Include="cJSONLoader.cpp">
+      <Filter>cJSONLoader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Basic Shader Manager\cShaderManager.h">
@@ -241,6 +247,9 @@
     </ClInclude>
     <ClInclude Include="cPlayer.h">
       <Filter>PlayerObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="cJSONLoader.h">
+      <Filter>cJSONLoader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -115,17 +115,17 @@ bool LoadModels(void)
 
     } 
 
-    cMesh* pBathtub = new cMesh();
-    pBathtub->meshName = "SM_Prop_Barrel_03 (2).ply";
-    pBathtub->friendlyName = "player"; 
-    pBathtub->setUniformDrawScale(3.0f);
-//    pBathtub->setRotationFromEuler(glm::vec3(45.0f, 0.0f, 0.0f));
-    pBathtub->drawPosition = glm::vec3(0.0f, 30.0f, 161.0f);
-   // pBathtub->alpha_transparency = 0.2f;
-    // 
-    pBathtub->textureName[0] = "Texture_01_A.bmp";
-    pBathtub->textureRatios[0] = 1.0f;
-    ::g_vec_pMeshesToDraw.push_back(pBathtub);
+//    cMesh* pBathtub = new cMesh();
+//    pBathtub->meshName = "SM_Prop_Barrel_03 (2).ply";
+//    pBathtub->friendlyName = "player"; 
+//    pBathtub->setUniformDrawScale(3.0f);
+////    pBathtub->setRotationFromEuler(glm::vec3(45.0f, 0.0f, 0.0f));
+//    pBathtub->drawPosition = glm::vec3(0.0f, 30.0f, 161.0f);
+//   // pBathtub->alpha_transparency = 0.2f;
+//    // 
+//    pBathtub->textureName[0] = "Texture_01_A.bmp";
+//    pBathtub->textureRatios[0] = 1.0f;
+//    ::g_vec_pMeshesToDraw.push_back(pBathtub);
 
 
 

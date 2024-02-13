@@ -50,6 +50,8 @@
 
 #include "LuaBrain/cLuaBrain.h"
 
+#include "cJSONLoader.h"
+
 glm::vec3 g_cameraEye = glm::vec3(0.0, 30.0, 181.0f);
 glm::vec3 g_cameraTarget = glm::vec3(0.0f, 30.0f, 161.0f);
 glm::vec3 g_upVector = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -103,6 +105,10 @@ int g_selectedLight = 2;
 
 // layout maker
 cLayoutLoader* layout;
+
+
+// json loader
+cJSONLoader* g_theJSONLoader = NULL;
 
 // Function signature
 bool SaveVectorSceneToFile(std::string saveFileName);
@@ -491,14 +497,14 @@ int main(void)
     // 
     LoadModels();
 
-    cMesh* playerMesh = ::g_pFindMeshByFriendlyName("player");
+    /*cMesh* playerMesh = ::g_pFindMeshByFriendlyName("player");
 
     if (playerMesh)
     {
         thePlayer = new cPlayer(playerMesh);
         thePlayer->speed = 30.0f;
         thePlayer->moveDir = glm::vec3(0.0f);
-    } 
+    } */
 
 //    LoadTheRobotronModels(shaderProgramID);
 
@@ -619,6 +625,16 @@ int main(void)
 //
 // *************************************************************************************
     int nextSecond = 1;
+
+
+
+    // create player object and load config
+    thePlayer = new cPlayer();
+
+    g_theJSONLoader = new cJSONLoader("", shaderProgramID);
+    g_theJSONLoader->loadPlayer("playerConfig.json");
+
+
 
     while (!glfwWindowShouldClose(window))
     {
@@ -918,8 +934,7 @@ int main(void)
 
     glfwDestroyWindow(window);
 
-
-
+    delete g_theJSONLoader;
 
     glfwTerminate();
     exit(EXIT_SUCCESS);
