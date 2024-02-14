@@ -1,12 +1,12 @@
 {
     "player":{
         "friendlyName": "player",
-        "meshFile": "SM_Prop_Barrel_03 (2).ply",
+        "meshFile": "playerModels/personPosed0.ply",
         "movementSpeed": 30.0,
         "position": { "x": 0.0, "y": 30.0, "z": 161.0 }, 
         "rotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
-        "scale": { "x": 1.0, "y": 1.0, "z": 1.0 },
-        "textureNames": ["Texture_01_A.bmp"],
+        "scale": { "x": 2.0, "y": 2.0, "z": 2.0 },
+        "textureNames": ["scavengertexture.bmp"],
         "textureRatios": [1.0]
     }
 }

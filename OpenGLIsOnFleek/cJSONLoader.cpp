@@ -152,7 +152,13 @@ bool cJSONLoader::loadPlayer(std::string fileName)
 	{
 		std::cout << "Scene Loader: failed to load player model into VAO" << std::endl;
 	}
-
+	std::string playerAnimationMesh = "playerModels/personPosed";
+	for (int i = 1; i < 31; i++) {
+		if (!g_pMeshManager->LoadModelIntoVAO(playerAnimationMesh + std::to_string(i) + ".ply", temp, m_ShaderProgramID))
+		{
+			std::cout << "Scene Loader: failed to load player model into VAO" << std::endl;
+		}
+	}
 	// load texture(s)
 	for (int i = 0; i < playerMesh->NUM_TEXTURES; i++)
 	{

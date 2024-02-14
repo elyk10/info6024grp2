@@ -38,6 +38,8 @@ extern glm::vec2 g_UVOffset;// = glm::vec2(0.0f, 0.0f);
 
 // From main.cpp
 extern cLuaBrain g_LuaBrain;
+
+extern bool isMoving;
 // Silly function binding example
 //void ChangeTaylorSwiftTexture(std::string newTexture);
 
@@ -441,9 +443,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
             else // third person
             {
                 deltaTime = p_HRTimer->getFrameTime();
-
+                isMoving = false;
                 if (key == GLFW_KEY_A && action) // left 
                 {
+                    isMoving = true;
                     glm::vec3 movement = glm::normalize(glm::cross(thePlayer->theMesh->drawPosition - ::g_cameraEye, ::g_upVector)) * thePlayer->speed * (float)deltaTime;
                     ::g_cameraEye.x -= movement.x;
                     ::g_cameraEye.z -= movement.z;
@@ -457,6 +460,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
                 }
                 if (key == GLFW_KEY_D && action) // right 
                 {
+                    isMoving = true;
                     glm::vec3 movement = glm::normalize(glm::cross(thePlayer->theMesh->drawPosition - ::g_cameraEye, ::g_upVector)) * thePlayer->speed * (float)deltaTime;
                     ::g_cameraEye.x += movement.x;
                     ::g_cameraEye.z += movement.z;
@@ -470,6 +474,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
                 }
                 if (key == GLFW_KEY_W && action) // forward 
                 {
+                    isMoving = true;
                     glm::vec3 movement = glm::normalize(thePlayer->theMesh->drawPosition - ::g_cameraEye) * thePlayer->speed * (float)deltaTime;
                     ::g_cameraEye.x += movement.x;
                     ::g_cameraEye.z += movement.z;
@@ -483,6 +488,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
                 }
                 if (key == GLFW_KEY_S && action) // backwards 
                 {
+                    isMoving = true;
                     glm::vec3 movement = glm::normalize(thePlayer->theMesh->drawPosition - ::g_cameraEye) * thePlayer->speed * (float)deltaTime;
                     ::g_cameraEye.x -= movement.x;
                     ::g_cameraEye.z -= movement.z;

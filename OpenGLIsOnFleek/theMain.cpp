@@ -63,6 +63,8 @@ double deltaTime = 0.0;
 
 bool thirdPersonView = true; 
 
+bool isMoving = false;
+
 cVAOManager* g_pMeshManager = NULL;
 
 cBasicTextureManager* g_pTextureManager = NULL;
@@ -459,6 +461,7 @@ int main(void)
     ::g_pTextureManager->Create2DTextureFromBMPFile("flames.bmp", true);
     ::g_pTextureManager->Create2DTextureFromBMPFile("fire.bmp", true);
     ::g_pTextureManager->Create2DTextureFromBMPFile("TaylorSwift_Eras_Poster.bmp", true);
+    ::g_pTextureManager->Create2DTextureFromBMPFile("scavengertexture.bmp", true);
     // Load the HUGE height map
     ::g_pTextureManager->Create2DTextureFromBMPFile("NvF5e_height_map.bmp", true);
     
@@ -634,7 +637,8 @@ int main(void)
     g_theJSONLoader = new cJSONLoader("", shaderProgramID);
     g_theJSONLoader->loadPlayer("playerConfig.json");
 
-
+    double animationTimer = 0.0;
+    int animationNum = 0;
 
     while (!glfwWindowShouldClose(window))
     {
@@ -817,6 +821,22 @@ int main(void)
             nextSecond++;
         }
 
+        animationTimer += deltaTime;
+        if (isMoving == true) {
+            if (animationTimer > 0.05f) {
+                animationNum++;
+                if (animationNum > 30) {
+                    animationNum = 9;
+                }
+                thePlayer->theMesh->meshName = "playerModels/personPosed" + std::to_string(animationNum) + ".ply";
+                animationTimer = 0.0;
+            }
+        }
+        else {
+            animationNum = 0;
+            thePlayer->theMesh->meshName = "playerModels/personPosed" + std::to_string(animationNum) + ".ply";
+            animationTimer = 0.0;
+        }
 
 // ***********************************************************************
         if ( ! ::g_vecAnimationCommands.empty() )
