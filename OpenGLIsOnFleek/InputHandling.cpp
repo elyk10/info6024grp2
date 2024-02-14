@@ -116,8 +116,16 @@ void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
             glm::normalize(temp);
 
             // adjust the angle of the player with the camera
-            thePlayer->theMesh->setDrawOrientation(glm::quatLookAt(temp, glm::vec3(0.0f, 1.0f, 0.0f)));
-            // thePlayer->forward = temp;
+         
+            glm::quat initialOrientation = thePlayer->initialOrientation;
+
+            glm::quat cameraOrientation = glm::quatLookAt(temp, glm::vec3(0.0f, 1.0f, 0.0f));
+
+
+            // apply initial player rotation so it remains facing the same direction relative to the camera
+            glm::quat finalOrientation = cameraOrientation * initialOrientation;
+
+            thePlayer->theMesh->setDrawOrientation(finalOrientation);
 
             ::g_cameraFront = glm::normalize(direction);
             direction = (glm::normalize(direction)) * CAMERA_TARGET_OFFSET;

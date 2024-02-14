@@ -103,6 +103,8 @@ bool cJSONLoader::loadPlayer(std::string fileName)
 		// scale
 		playerMesh->adjustRoationAngleFromEuler(eulerRotation);
 
+		thePlayer->initialOrientation = glm::quat(eulerRotation);
+
 		if (!getGLMVec3JSON(playerData, "scale", playerMesh->drawScale))
 		{
 			std::cout << "Scene Loader: Failed to get player scale" << std::endl;
