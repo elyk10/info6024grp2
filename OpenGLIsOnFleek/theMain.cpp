@@ -53,7 +53,7 @@
 #include "cJSONLoader.h"
 
 glm::vec3 g_cameraEye = glm::vec3(0.0, 30.0, 181.0f);
-glm::vec3 g_cameraTarget = glm::vec3(0.0f, 30.0f, 161.0f);
+glm::vec3 g_cameraTarget = glm::vec3(0.0f, 0.2f, -20.0f);
 glm::vec3 g_upVector = glm::vec3(0.0f, 1.0f, 0.0f);
 glm::vec3 g_cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 
@@ -343,7 +343,7 @@ int main(void)
     ::g_pMeshManager->setBasePath("assets/models");
 
     // graphics
-    std::string fileSceneName = "scene.txt";
+    std::string fileSceneName = "scene3.txt";
     // physics
     //std::string fileSceneName = "physics.txt";
     std::string basepathForScene = "assets/layout/";
@@ -458,6 +458,7 @@ int main(void)
     ::g_pTextureManager->Create2DTextureFromBMPFile("taylor-swift-jimmy-fallon.bmp", true);
     ::g_pTextureManager->Create2DTextureFromBMPFile("sand.bmp", true);
     ::g_pTextureManager->Create2DTextureFromBMPFile("landShape.bmp", true);
+    ::g_pTextureManager->Create2DTextureFromBMPFile("Dungeons_2_Texture_01_A.bmp", true);
     ::g_pTextureManager->Create2DTextureFromBMPFile("flames.bmp", true);
     ::g_pTextureManager->Create2DTextureFromBMPFile("fire.bmp", true);
     ::g_pTextureManager->Create2DTextureFromBMPFile("TaylorSwift_Eras_Poster.bmp", true);

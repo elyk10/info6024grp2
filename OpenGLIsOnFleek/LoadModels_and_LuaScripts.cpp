@@ -58,7 +58,7 @@ bool LoadModels(void)
             pTempMesh->adjustRoationAngleFromEuler(layout->modelRotation[i]);
             pTempMesh->setUniformDrawScale(layout->modelScale[i]);
 
-            pTempMesh->textureName[0] = "Texture_01_A.bmp";
+            pTempMesh->textureName[0] = "Dungeons_2_Texture_01_A.bmp";
             pTempMesh->textureRatios[0] = 1.0f;
 
 
