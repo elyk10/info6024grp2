@@ -164,6 +164,9 @@ bool cJSONLoader::loadPlayer(std::string fileName)
 	// load texture(s)
 	for (int i = 0; i < playerMesh->NUM_TEXTURES; i++)
 	{
+		// ensure basepath is correct for texture manager
+		g_pTextureManager->SetBasePath("assets/textures");
+
 		if (playerMesh->textureName[i] != "")
 		{
 			if (!g_pTextureManager->Create2DTextureFromBMPFile(playerMesh->textureName[i], true))
