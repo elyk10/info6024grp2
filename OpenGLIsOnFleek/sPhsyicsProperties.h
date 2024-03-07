@@ -161,6 +161,7 @@ struct sPhsyicsProperties
 	void setShape(sPlane* pPlaneProps);
 	void setShape(sTriangle* pTriangleProps);
 	void setShape(sCapsule* pCapsuleProps);
+	void setShape(sAABB* pAABB);
 	void setShape(sMeshOfTriangles_Indirect* pTriangleMeshProps);
 	void setShape(sMeshOfTriangles_LocalVertices* pTriangleMeshProps);
 
@@ -181,6 +182,10 @@ struct sPhsyicsProperties
 	{
 		this->m_qOrientation = glm::quat(newEulerAngleXYZ);
 	}
+	void setRotationFromQuat(glm::quat newQuatAngleXYZ)
+	{
+		this->m_qOrientation = newQuatAngleXYZ;
+	}
 
 	void adjustRoationAngleFromEuler(glm::vec3 EulerAngleXYZ_Adjust)
 	{
@@ -198,6 +203,9 @@ public:
 
 	glm::vec3 velocity = glm::vec3(0.0f);
 	glm::vec3 acceleration = glm::vec3(0.0f);
+
+	//temp hp
+	int health = 1000;
 
 
 	// Since division is "slow" and we are dividing my mass, 

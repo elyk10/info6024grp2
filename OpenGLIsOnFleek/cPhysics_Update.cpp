@@ -3,6 +3,9 @@
 
 #include <iostream>
 
+extern glm::vec3 g_cameraEye;
+extern glm::vec3 g_cameraTarget;
+
 // HACK:
 void g_DrawDebugSphere(glm::vec3 position, float scale, glm::vec4 colourRGBA);
 
@@ -23,11 +26,40 @@ void cPhysics::Update(double deltaTime)
 		// Infinite mass? 
 		if (pObject->inverse_mass >= 0.0f)
 		{
+			if (pObject->friendlyName == "player") {
+				std::cout << pObject->velocity.y << std::endl;
+				if (pObject->health <= 0) {
+					pObject->position = glm::vec3(0.0f, 5.0f, -20.0f );
+					pObject->health = 1000;
+					for (sPhsyicsProperties* pSubObject : this->m_vec_pPhysicalProps) {
+						if (pSubObject->friendlyName == "lavaTrap") {
+							pSubObject->setRotationFromEuler(glm::vec3(0.0f));
+						}
+						else if (pSubObject->friendlyName == "launcher") {
+							pSubObject->position.y = 0.0f;
+						}
+					}
+				}
+			}
 			// Explicit forward Euler "integration step"
 			//		NewVelocity = LastVel + (Accel * DeltaTime)
 			//		NewPosition = LastPos + (Vel * DeltaTime)	
 
 			// Update the "old" position
+			if (pObject->friendlyName == "launcher") {
+				for (sPhsyicsProperties* pSubObject : this->m_vec_pPhysicalProps) {
+					if (pSubObject->friendlyName == "player") {
+						pSubObject->position.y += pObject->position.y;
+					}
+				}
+				if (pObject->position.y > 10.0f) {
+					pObject->velocity.y = -25.0f;
+				}
+				else if (pObject->position.y < -0.1f) {
+					pObject->velocity.y = 0.0f;
+					pObject->position.y = 0.0f;
+				}
+			}
 			pObject->oldPosition = pObject->position;
 
 			// Velocity change is based on the acceleration over this time frame 
@@ -50,6 +82,11 @@ void cPhysics::Update(double deltaTime)
 			pObject->position.y += deltaPosition.y;
 			pObject->position.z += deltaPosition.z;
 
+			//if (pObject->friendlyName == "player") {
+			//	g_cameraEye += deltaPosition;
+			//	g_cameraTarget += deltaPosition;
+			//}
+
 		}//if (pObject->inverse_mass >= 0.0f)
 
 	}//for (sPhsyicsProperties* pObject
@@ -61,16 +98,25 @@ void cPhysics::Update(double deltaTime)
 	// See which object is colliding with which object...
 	for (sPhsyicsProperties* pObjectA : this->m_vec_pPhysicalProps )
 	{
-		
+		//object will never move, no point checking for collision as the moving ones will do that
+		if (pObjectA->inverse_mass < 0.01f) {
+			continue;
+		}
+		bool touchingHole = false;
 		for (sPhsyicsProperties* pObjectB : this->m_vec_pPhysicalProps )
 		{
+			//if (pObjectB->friendlyName != "floor") {
+			//	continue;
+			//}
 			// Are "A" and "B" the same object
 			if (pObjectA == pObjectB)
 			{
 				// Yup, so skip this
 				continue;
 			}
-
+			if (touchingHole) {
+				continue;
+			}
 // We could do the matrix this way...
 //			if ((pObjectA->shapeType == sPhsyicsProperties::SPHERE) &&
 //				(pObjectA->shapeType == sPhsyicsProperties::PLANE))
@@ -100,7 +146,47 @@ void cPhysics::Update(double deltaTime)
 					// Sphere - Triangle
 					break;
 				case sPhsyicsProperties::AABB:
-					// Sphere - AABB
+					if (this->m_Sphere_AABB_IntersectionTest(pObjectA, pObjectB)) {
+						if (pObjectB->friendlyName == "hole") {
+							touchingHole = true;
+							continue;
+						}
+						if (pObjectB->friendlyName == "lavaTrap") {
+							touchingHole = true;
+							pObjectB->adjustRoationAngleFromEuler((glm::vec3(-0.75f, 0.0f, 0.0f) * (float)deltaTime));
+							continue;
+						}
+						if (pObjectB->friendlyName == "launcher") {
+							pObjectB->velocity = glm::vec3(0.0f, 25.0f, 0.0f);
+							pObjectA->position.y += 0.75f;
+							pObjectA->velocity = glm::vec3(0.0f, 50.0f, 0.0f);
+							touchingHole = true;
+							continue;
+						}
+						if (pObjectB->friendlyName == "lava") {
+							pObjectA->health -= 200 * deltaTime;
+							std::cout << "Hp: " << pObjectA->health << std::endl;
+							pObjectA->position.y = -19.25f;
+						}
+						if (pObjectB->friendlyName == "floor") {
+							sPhsyicsProperties::sAABB* pAABB_Detail = (sPhsyicsProperties::sAABB*)(pObjectB->pShape);
+							if (pObjectA->position.y + 1.f < pAABB_Detail->minXYZ.y) {
+								pObjectA->position.y = pAABB_Detail->minXYZ.y;
+							}
+							else {
+								pObjectA->position.y = pAABB_Detail->maxXYZ.y;
+							}
+						}
+						else {
+							pObjectA->position = pObjectA->oldPosition;
+						}
+						if (glm::length(pObjectA->velocity) > 30.0f) {
+			
+							pObjectA->health -= glm::length(pObjectA->velocity) * 0.5f;
+							std::cout << "Hp: " << pObjectA->health << std::endl;
+							pObjectA->velocity = glm::vec3(0.0f);
+						}
+					}
 					break;
 				case sPhsyicsProperties::CAPSULE:
 					// Sphere - Capsule
@@ -206,7 +292,12 @@ void cPhysics::Update(double deltaTime)
 	{
 		if (pObject->pTheAssociatedMesh)
 		{
-			pObject->pTheAssociatedMesh->setDrawPosition(pObject->position);
+			if (pObject->friendlyName == "player") {
+				glm::vec3 cameraEyeDisplacement = ::g_cameraEye - g_cameraTarget;
+				::g_cameraEye = pObject->position + cameraEyeDisplacement;
+				::g_cameraTarget = pObject->position;
+			}
+			pObject->pTheAssociatedMesh->setDrawPosition(pObject->position - glm::vec3(0.0f, 0.25f, 0.0f));
 //			pObject->pTheAssociatedMesh->setDrawOrientation(pObject->orientation);
 			pObject->pTheAssociatedMesh->setDrawOrientation(pObject->get_qOrientation());
 		}

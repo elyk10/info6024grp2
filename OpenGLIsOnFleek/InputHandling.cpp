@@ -125,11 +125,12 @@ void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
             // apply initial player rotation so it remains facing the same direction relative to the camera
             glm::quat finalOrientation = cameraOrientation * initialOrientation;
 
-            thePlayer->theMesh->setDrawOrientation(finalOrientation);
+            thePlayer->thePhysics->setRotationFromQuat(finalOrientation);
+            //thePlayer->thePhysics->setDrawOrientation(finalOrientation);
 
             ::g_cameraFront = glm::normalize(direction);
             direction = (glm::normalize(direction)) * CAMERA_TARGET_OFFSET;
-            ::g_cameraEye = direction + thePlayer->theMesh->drawPosition;
+            ::g_cameraEye = direction + thePlayer->thePhysics->position;
             //std::cout << "CameraEye: " << g_cameraEye.x << ", " << g_cameraEye.y << ", " << g_cameraEye.z << std::endl;
 
         }
@@ -452,74 +453,77 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
             {
                 deltaTime = p_HRTimer->getFrameTime();
                 isMoving = false;
+                thePlayer->thePhysics->velocity = glm::vec3(0.0f);
                 if (key == GLFW_KEY_A && action) // left 
                 {
                     isMoving = true;
-                    glm::vec3 movement = glm::normalize(glm::cross(thePlayer->theMesh->drawPosition - ::g_cameraEye, ::g_upVector)) * thePlayer->speed * (float)deltaTime;
-                    ::g_cameraEye.x -= movement.x;
-                    ::g_cameraEye.z -= movement.z;
-                    ::g_cameraTarget.x -= movement.x;
-                    ::g_cameraTarget.z -= movement.z;
+                    glm::vec3 movement = glm::normalize(glm::cross(thePlayer->thePhysics->position - ::g_cameraEye, ::g_upVector)) * thePlayer->speed * (float)deltaTime;
+                    //::g_cameraEye.x -= movement.x;
+                    //::g_cameraEye.z -= movement.z;
+                    //::g_cameraTarget.x -= movement.x;
+                    //::g_cameraTarget.z -= movement.z;
 
-                    thePlayer->theMesh->drawPosition.x -= movement.x;
-                    thePlayer->theMesh->drawPosition.z -= movement.z;
+                    thePlayer->thePhysics->velocity = -movement * 3.0f;
 
                     thePlayer->moveDir = movement * (-1.0f);
                 }
                 if (key == GLFW_KEY_D && action) // right 
                 {
                     isMoving = true;
-                    glm::vec3 movement = glm::normalize(glm::cross(thePlayer->theMesh->drawPosition - ::g_cameraEye, ::g_upVector)) * thePlayer->speed * (float)deltaTime;
-                    ::g_cameraEye.x += movement.x;
-                    ::g_cameraEye.z += movement.z;
-                    ::g_cameraTarget.x += movement.x;
-                    ::g_cameraTarget.z += movement.z;
+                    glm::vec3 movement = glm::normalize(glm::cross(thePlayer->thePhysics->position - ::g_cameraEye, ::g_upVector)) * thePlayer->speed * (float)deltaTime;
+                    //::g_cameraEye.x += movement.x;
+                    //::g_cameraEye.z += movement.z;
+                    //::g_cameraTarget.x += movement.x;
+                    //::g_cameraTarget.z += movement.z;
 
-                    thePlayer->theMesh->drawPosition.x += movement.x;
-                    thePlayer->theMesh->drawPosition.z += movement.z;
+                    thePlayer->thePhysics->velocity = movement * 3.0f;
 
                     thePlayer->moveDir = movement;
                 }
                 if (key == GLFW_KEY_W && action) // forward 
                 {
                     isMoving = true;
-                    glm::vec3 movement = glm::normalize(thePlayer->theMesh->drawPosition - ::g_cameraEye) * thePlayer->speed * (float)deltaTime;
-                    ::g_cameraEye.x += movement.x;
-                    ::g_cameraEye.z += movement.z;
-                    ::g_cameraTarget.x += movement.x;
-                    ::g_cameraTarget.z += movement.z;
+                    glm::vec3 movement = glm::normalize(thePlayer->thePhysics->position - ::g_cameraEye) * thePlayer->speed * (float)deltaTime;
+                    //::g_cameraEye.x += movement.x;
+                    //::g_cameraEye.z += movement.z;
+                    //::g_cameraTarget.x += movement.x;
+                    //::g_cameraTarget.z += movement.z;
 
-                    thePlayer->theMesh->drawPosition.x += movement.x;
-                    thePlayer->theMesh->drawPosition.z += movement.z;
+                    thePlayer->thePhysics->velocity = movement * 3.0f;
 
                     thePlayer->moveDir = movement;
                 }
                 if (key == GLFW_KEY_S && action) // backwards 
                 {
                     isMoving = true;
-                    glm::vec3 movement = glm::normalize(thePlayer->theMesh->drawPosition - ::g_cameraEye) * thePlayer->speed * (float)deltaTime;
-                    ::g_cameraEye.x -= movement.x;
-                    ::g_cameraEye.z -= movement.z;
-                    ::g_cameraTarget.x -= movement.x;
-                    ::g_cameraTarget.z -= movement.z;
+                    glm::vec3 movement = glm::normalize(thePlayer->thePhysics->position - ::g_cameraEye) * thePlayer->speed * (float)deltaTime;
+                    //::g_cameraEye.x -= movement.x;
+                    //::g_cameraEye.z -= movement.z;
+                    //::g_cameraTarget.x -= movement.x;
+                    //::g_cameraTarget.z -= movement.z;
 
-                    thePlayer->theMesh->drawPosition.x -= movement.x;
-                    thePlayer->theMesh->drawPosition.z -= movement.z;
+                    thePlayer->thePhysics->velocity = -movement * 3.0f;
 
                     thePlayer->moveDir = movement * (-1.0f);
                 }
-
-
-                if (key == GLFW_KEY_Q && action) // up 
-                {
-                    ::g_cameraEye.y -= CAMERA_MOVEMENT_SPEED;
-                    ::g_cameraTarget.y -= CAMERA_MOVEMENT_SPEED;
+                if (key == GLFW_KEY_SPACE) {
+                    thePlayer->thePhysics->position += glm::vec3(0.0f, 1.0f, 0.0f);
+                    thePlayer->thePhysics->oldPosition += glm::vec3(0.0f, 1.0f, 0.0f);
+                    thePlayer->thePhysics->velocity = glm::vec3(0.0f, 15.0f, 0.0f);
                 }
-                if (key == GLFW_KEY_E && action) // down 
-                {
-                    ::g_cameraEye.y += CAMERA_MOVEMENT_SPEED;
-                    ::g_cameraTarget.y += CAMERA_MOVEMENT_SPEED;
-                }
+
+                //if (key == GLFW_KEY_Q && action) // up 
+                //{
+                //    thePlayer->thePhysics->position.y += thePlayer->speed * (float)deltaTime;
+                //    ::g_cameraEye.y += thePlayer->speed * (float)deltaTime;
+                //    ::g_cameraTarget.y += thePlayer->speed * (float)deltaTime;
+                //}
+                //if (key == GLFW_KEY_E && action) // down 
+                //{
+                //    thePlayer->thePhysics->position.y -= thePlayer->speed * (float)deltaTime;
+                //    ::g_cameraEye.y -= thePlayer->speed * (float)deltaTime;
+                //    ::g_cameraTarget.y -= thePlayer->speed * (float)deltaTime;
+                //}
             }
         }
 

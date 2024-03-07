@@ -4,7 +4,7 @@ sPhsyicsProperties::sPhsyicsProperties()
 {
 	this->velocity = glm::vec3(0.0f);
 	this->acceleration = glm::vec3(0.0f);
-	this->inverse_mass = 1.0f;	// What should this be??
+	this->inverse_mass = 0.0f;	// What should this be??
 	//
 	this->pTheAssociatedMesh = NULL;
 	//
@@ -81,6 +81,12 @@ void sPhsyicsProperties::setShape(sTriangle* pTriangleProps)
 void sPhsyicsProperties::setShape(sCapsule* pCapsuleProps)
 {
 	this->pShape = (void*)pCapsuleProps;
+	return;
+}
+
+void sPhsyicsProperties::setShape(sAABB* pAABB)
+{
+	this->pShape = (void*)pAABB;
 	return;
 }
 

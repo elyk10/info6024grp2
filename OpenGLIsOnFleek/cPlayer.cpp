@@ -5,9 +5,9 @@ cPlayer::cPlayer()
 
 }
 
-cPlayer::cPlayer(cMesh* thePlayer)
+cPlayer::cPlayer(sPhsyicsProperties* thePlayer)
 {
-	this->theMesh = thePlayer;
+	this->thePhysics = thePlayer;
 }
 
 cPlayer::~cPlayer()

@@ -2,8 +2,8 @@
     "player":{
         "friendlyName": "player",
         "meshFile": "playerModels/personPosed0.ply",
-        "movementSpeed": 30.0,
-        "position": { "x": 0.0, "y": 0.2, "z": -20.0 }, 
+        "movementSpeed": 100.0,
+        "position": { "x": 0.0, "y": 5.0, "z": -20.0 }, 
         "rotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
         "scale": { "x": 2.0, "y": 2.0, "z": 2.0 },
         "textureNames": ["scavengertexture.bmp"],

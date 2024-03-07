@@ -75,6 +75,7 @@ public:
 	virtual void setDrawPosition(const glm::vec3& newPosition);
 	virtual void setDrawOrientation(const glm::vec3& newOrientation);
 	virtual void setDrawOrientation(const glm::quat& newOrientation);
+	virtual void setMesh(const std::string mesh);
 	// ENDOF: iPhysicsMeshTransformAccess interface
 
 	bool bIsVisible;

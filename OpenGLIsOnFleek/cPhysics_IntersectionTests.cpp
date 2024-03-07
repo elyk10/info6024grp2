@@ -4,6 +4,7 @@
 #include <glm/vec4.hpp> // glm::vec4
 #include <glm/mat4x4.hpp> // glm::mat4
 #include <glm/gtc/matrix_transform.hpp> 
+#include <iostream>
 
 bool cPhysics::m_Sphere_Sphere_IntersectionTest(sPhsyicsProperties* pSphereA, sPhsyicsProperties* pShpereB)
 {
@@ -25,8 +26,30 @@ bool cPhysics::m_Sphere_Triangle_IntersectionTest(sPhsyicsProperties* pSphere, s
 
 bool cPhysics::m_Sphere_AABB_IntersectionTest(sPhsyicsProperties* pSphere, sPhsyicsProperties* pAABB)
 {
-	// TODO: Insert amazing code here 
-	return false;
+	sPhsyicsProperties::sSphere* pSphere_Details = (sPhsyicsProperties::sSphere*)(pSphere->pShape);
+
+	sPhsyicsProperties::sAABB* pAABB_Detail = (sPhsyicsProperties::sAABB*)(pAABB->pShape);
+
+	if (pSphere->position.y + pSphere_Details->radius < pAABB_Detail->minXYZ.y) {
+		return false;
+	}
+	if (pSphere->position.y - pSphere_Details->radius > pAABB_Detail->maxXYZ.y) {
+		return false;
+	}
+	if (pSphere->position.x + pSphere_Details->radius < pAABB_Detail->minXYZ.x) {
+		return false;
+	}
+	if (pSphere->position.x - pSphere_Details->radius > pAABB_Detail->maxXYZ.x) {
+		return false;
+	}
+	if (pSphere->position.z + pSphere_Details->radius < pAABB_Detail->minXYZ.z) {
+		return false;
+	}
+	if (pSphere->position.z - pSphere_Details->radius > pAABB_Detail->maxXYZ.z) {
+		return false;
+	}
+
+	return true;
 }
 
 bool cPhysics::m_Sphere_Capsule_IntersectionTest(sPhsyicsProperties* pSphere, sPhsyicsProperties* pCapsule)

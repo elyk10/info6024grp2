@@ -97,7 +97,12 @@ void cMesh::setDrawOrientation(const glm::quat& newOrientation)
 	this->m_qOrientation = newOrientation;
 
 	return;
-}// ENDOF: iPhysicsMeshTransformAccess interface
+}
+void cMesh::setMesh(const std::string mesh)
+{
+	this->meshName = mesh;
+}
+// ENDOF: iPhysicsMeshTransformAccess interface
 
 
 //void cMesh::Update(double deltaTime)

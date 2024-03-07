@@ -375,28 +375,28 @@ int main(void)
 
     }
 
-    sModelDrawInfo bathtubDrawingInfo;
-    ::g_pMeshManager->LoadModelIntoVAO("SM_Prop_Barrel_03 (2).ply",
-                                   bathtubDrawingInfo, shaderProgramID);
-    std::cout << "Loaded: " << bathtubDrawingInfo.numberOfVertices << " vertices" << std::endl;
-
-    sModelDrawInfo terrainDrawingInfo;
-//    ::g_pMeshManager->LoadModelIntoVAO("Terrain_xyz_n_rgba.ply",
-    ::g_pMeshManager->LoadModelIntoVAO("Terrain_xyz_n_rgba_uv.ply",
-                                   terrainDrawingInfo, shaderProgramID);
-    std::cout << "Loaded: " << terrainDrawingInfo.numberOfVertices << " vertices" << std::endl;
-
-    ::g_pMeshManager->LoadModelIntoVAO("Big_Flat_Mesh_256x256_00_132K_xyz_n_rgba_uv.ply",
-                                   terrainDrawingInfo, shaderProgramID);
-    std::cout << "Loaded: " << terrainDrawingInfo.numberOfVertices << " vertices" << std::endl;
-
-    ::g_pMeshManager->LoadModelIntoVAO("Big_Flat_Mesh_256x256_12_5_xyz_n_rgba_uv.ply",
-                                   terrainDrawingInfo, shaderProgramID);
-    std::cout << "Loaded: " << terrainDrawingInfo.numberOfVertices << " vertices" << std::endl;
-
-    ::g_pMeshManager->LoadModelIntoVAO("Big_Flat_Mesh_256x256_07_1K_xyz_n_rgba_uv.ply",
-                                   terrainDrawingInfo, shaderProgramID);
-    std::cout << "Loaded: " << terrainDrawingInfo.numberOfVertices << " vertices" << std::endl;
+    sModelDrawInfo stairs;
+    ::g_pMeshManager->LoadModelIntoVAO("SM_Env_Dwarf_Stairs_01.ply",
+        stairs, shaderProgramID);
+    std::cout << "Loaded: " << stairs.numberOfVertices << " vertices" << std::endl;
+//
+//    sModelDrawInfo terrainDrawingInfo;
+////    ::g_pMeshManager->LoadModelIntoVAO("Terrain_xyz_n_rgba.ply",
+//    ::g_pMeshManager->LoadModelIntoVAO("Terrain_xyz_n_rgba_uv.ply",
+//                                   terrainDrawingInfo, shaderProgramID);
+//    std::cout << "Loaded: " << terrainDrawingInfo.numberOfVertices << " vertices" << std::endl;
+//
+//    ::g_pMeshManager->LoadModelIntoVAO("Big_Flat_Mesh_256x256_00_132K_xyz_n_rgba_uv.ply",
+//                                   terrainDrawingInfo, shaderProgramID);
+//    std::cout << "Loaded: " << terrainDrawingInfo.numberOfVertices << " vertices" << std::endl;
+//
+//    ::g_pMeshManager->LoadModelIntoVAO("Big_Flat_Mesh_256x256_12_5_xyz_n_rgba_uv.ply",
+//                                   terrainDrawingInfo, shaderProgramID);
+//    std::cout << "Loaded: " << terrainDrawingInfo.numberOfVertices << " vertices" << std::endl;
+//
+//    ::g_pMeshManager->LoadModelIntoVAO("Big_Flat_Mesh_256x256_07_1K_xyz_n_rgba_uv.ply",
+//                                   terrainDrawingInfo, shaderProgramID);
+//    std::cout << "Loaded: " << terrainDrawingInfo.numberOfVertices << " vertices" << std::endl;
 
 
 //    sModelDrawInfo HilbertRampDrawingInfo;
@@ -423,18 +423,18 @@ int main(void)
     // Spiderman
     sModelDrawInfo spiderMan;
 
-    ::g_pMeshManager->LoadModelIntoVAO("legospiderman_body_xyz_n_rgba_uv.ply", spiderMan, shaderProgramID);
-    ::g_pMeshManager->LoadModelIntoVAO("legospiderman_head_xyz_n_rgba_uv.ply", spiderMan, shaderProgramID);
-    ::g_pMeshManager->LoadModelIntoVAO("legospiderman_Hips_xyz_n_rgba_uv.ply", spiderMan, shaderProgramID);
+    //::g_pMeshManager->LoadModelIntoVAO("legospiderman_body_xyz_n_rgba_uv.ply", spiderMan, shaderProgramID);
+    //::g_pMeshManager->LoadModelIntoVAO("legospiderman_head_xyz_n_rgba_uv.ply", spiderMan, shaderProgramID);
+    //::g_pMeshManager->LoadModelIntoVAO("legospiderman_Hips_xyz_n_rgba_uv.ply", spiderMan, shaderProgramID);
 
-    ::g_pMeshManager->LoadModelIntoVAO("legospiderman_Left_arm_xyz_n_rgba_uv.ply", spiderMan, shaderProgramID);
-    ::g_pMeshManager->LoadModelIntoVAO("legospiderman_Left_hand_xyz_n_rgba_uv.ply", spiderMan, shaderProgramID);
+    //::g_pMeshManager->LoadModelIntoVAO("legospiderman_Left_arm_xyz_n_rgba_uv.ply", spiderMan, shaderProgramID);
+    //::g_pMeshManager->LoadModelIntoVAO("legospiderman_Left_hand_xyz_n_rgba_uv.ply", spiderMan, shaderProgramID);
 
-    ::g_pMeshManager->LoadModelIntoVAO("legospiderman_Right_arm_xyz_n_rgba_uv.ply", spiderMan, shaderProgramID);
-    ::g_pMeshManager->LoadModelIntoVAO("legospiderman_Right_hand_xyz_n_rgba_uv.ply", spiderMan, shaderProgramID);
+    //::g_pMeshManager->LoadModelIntoVAO("legospiderman_Right_arm_xyz_n_rgba_uv.ply", spiderMan, shaderProgramID);
+    //::g_pMeshManager->LoadModelIntoVAO("legospiderman_Right_hand_xyz_n_rgba_uv.ply", spiderMan, shaderProgramID);
 
-    ::g_pMeshManager->LoadModelIntoVAO("legospiderman_Left_leg_xyz_n_rgba_uv.ply", spiderMan, shaderProgramID);
-    ::g_pMeshManager->LoadModelIntoVAO("legospiderman_Right_leg_xyz_n_rgba_uv.ply", spiderMan, shaderProgramID);
+    //::g_pMeshManager->LoadModelIntoVAO("legospiderman_Left_leg_xyz_n_rgba_uv.ply", spiderMan, shaderProgramID);
+    //::g_pMeshManager->LoadModelIntoVAO("legospiderman_Right_leg_xyz_n_rgba_uv.ply", spiderMan, shaderProgramID);
 
     bool wireMeshes = false;
         
@@ -452,16 +452,16 @@ int main(void)
         std::cout << "ERROR: no Taylor Swift!!" << std::endl;
     }
     //
-    ::g_pTextureManager->Create2DTextureFromBMPFile("Blank_UV_Text_Texture.bmp", true);
-    ::g_pTextureManager->Create2DTextureFromBMPFile("SpidermanUV_square.bmp", true);
+    //::g_pTextureManager->Create2DTextureFromBMPFile("Blank_UV_Text_Texture.bmp", true);
+    //::g_pTextureManager->Create2DTextureFromBMPFile("SpidermanUV_square.bmp", true);
     ::g_pTextureManager->Create2DTextureFromBMPFile("Water_Texture_01.bmp", true);
-    ::g_pTextureManager->Create2DTextureFromBMPFile("taylor-swift-jimmy-fallon.bmp", true);
-    ::g_pTextureManager->Create2DTextureFromBMPFile("sand.bmp", true);
-    ::g_pTextureManager->Create2DTextureFromBMPFile("landShape.bmp", true);
+   //::g_pTextureManager->Create2DTextureFromBMPFile("taylor-swift-jimmy-fallon.bmp", true);
+    //::g_pTextureManager->Create2DTextureFromBMPFile("sand.bmp", true);
+    //::g_pTextureManager->Create2DTextureFromBMPFile("landShape.bmp", true);
     ::g_pTextureManager->Create2DTextureFromBMPFile("Dungeons_2_Texture_01_A.bmp", true);
     ::g_pTextureManager->Create2DTextureFromBMPFile("flames.bmp", true);
     ::g_pTextureManager->Create2DTextureFromBMPFile("fire.bmp", true);
-    ::g_pTextureManager->Create2DTextureFromBMPFile("TaylorSwift_Eras_Poster.bmp", true);
+    ::g_pTextureManager->Create2DTextureFromBMPFile("lava.bmp", true);
     ::g_pTextureManager->Create2DTextureFromBMPFile("scavengertexture.bmp", true);
     // Load the HUGE height map
     ::g_pTextureManager->Create2DTextureFromBMPFile("NvF5e_height_map.bmp", true);
@@ -637,6 +637,13 @@ int main(void)
 
     g_theJSONLoader = new cJSONLoader("", shaderProgramID);
     g_theJSONLoader->loadPlayer("playerConfig.json");
+
+    sPhsyicsProperties* player = ::g_pPhysics->findShapeByFriendlyName("player");
+    for (cMesh* mesh : ::g_vec_pMeshesToDraw) {
+        if (mesh->friendlyName == "player") {
+            player->pTheAssociatedMesh = mesh;
+        }
+    }
 
     double animationTimer = 0.0;
     int animationNum = 0;
@@ -829,13 +836,13 @@ int main(void)
                 if (animationNum > 30) {
                     animationNum = 9;
                 }
-                thePlayer->theMesh->meshName = "playerModels/personPosed" + std::to_string(animationNum) + ".ply";
+                thePlayer->thePhysics->pTheAssociatedMesh->setMesh("playerModels/personPosed" + std::to_string(animationNum) + ".ply");
                 animationTimer = 0.0;
             }
         }
         else {
             animationNum = 0;
-            thePlayer->theMesh->meshName = "playerModels/personPosed" + std::to_string(animationNum) + ".ply";
+            thePlayer->thePhysics->pTheAssociatedMesh->setMesh("playerModels/personPosed" + std::to_string(animationNum) + ".ply");
             animationTimer = 0.0;
         }
 
@@ -915,7 +922,7 @@ int main(void)
         // 
 //        DoPhysicUpdate(deltaTime);
 
-//        ::g_pPhysics->Update(deltaTime);
+        ::g_pPhysics->Update(deltaTime);
 
 
         glfwSwapBuffers(window);
@@ -924,9 +931,9 @@ int main(void)
         // Update the title screen
         std::stringstream ssTitle;
         ssTitle << "Camera (x,y,z): "
-            << ::g_cameraEye.x << ", "
-            << ::g_cameraEye.y << ", "
-            << ::g_cameraEye.z << ") "
+            << thePlayer->thePhysics->position.x << ", "
+            << thePlayer->thePhysics->position.y << ", "
+            << thePlayer->thePhysics->position.z << ") "
             /* << "Light[" << ::g_selectedLight << "]: "
             << ::g_pTheLights->theLights[::g_selectedLight].position.x << ", "
             << ::g_pTheLights->theLights[::g_selectedLight].position.y << ", "
@@ -1380,7 +1387,7 @@ void DrawObject(cMesh* pCurrentMesh, glm::mat4 matModelParent, GLuint shaderProg
 
 
     // ALPHA Transparency
-    // is this even transparent?
+    // is this even transparent? 
     if (pCurrentMesh->alpha_transparency < 1.0f)
     {
         //yes

@@ -1,16 +1,18 @@
 #pragma once
 
 #include "cMesh.h"
+#include "sPhsyicsProperties.h"
 
 class cPlayer
 {
 public:
 	cPlayer();
-	cPlayer(cMesh* playerMesh);
+	cPlayer(sPhsyicsProperties* thePlayer);
 
 	~cPlayer();
 
-	cMesh* theMesh;
+	sPhsyicsProperties* thePhysics;
+	//cMesh* theMesh;
 	float speed;
 	glm::vec3 moveDir;
 

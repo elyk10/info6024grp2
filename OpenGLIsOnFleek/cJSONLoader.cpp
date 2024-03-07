@@ -7,9 +7,11 @@
 #include "cMesh.h"
 #include "cVAOManager/cVAOManager.h"
 #include "TextureManager/cBasicTextureManager.h"
+#include "cPhysics.h"
 
 extern cPlayer* thePlayer;
 extern std::vector< cMesh* > g_vec_pMeshesToDraw;
+extern cPhysics* g_pPhysics;
 extern cVAOManager* g_pMeshManager;
 extern cBasicTextureManager* g_pTextureManager;
 
@@ -139,8 +141,22 @@ bool cJSONLoader::loadPlayer(std::string fileName)
 		}
 
 		g_vec_pMeshesToDraw.push_back(playerMesh);
-		thePlayer->theMesh = playerMesh;
 		thePlayer->moveDir = glm::vec3(0.f);
+
+		sPhsyicsProperties* pPlayer = new sPhsyicsProperties();
+		pPlayer->shapeType = sPhsyicsProperties::SPHERE;
+
+		pPlayer->position = playerMesh->drawPosition;
+		pPlayer->friendlyName = "player";
+		pPlayer->inverse_mass = 1.0f;
+		pPlayer->acceleration = glm::vec3(0.0f, -9.81f, 0.0f);
+		//pPlayer->acceleration = glm::vec3(0.0f, 0.0f, 0.0f);
+		pPlayer->pTheAssociatedMesh = playerMesh;
+
+		pPlayer->setShape(new sPhsyicsProperties::sSphere(1.0f));
+		::g_pPhysics->AddShape(pPlayer);
+
+		thePlayer->thePhysics = pPlayer;
 	}
 	else
 	{
