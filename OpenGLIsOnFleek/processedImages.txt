@@ -1,0 +1,2 @@
+Gold_Diffuse.png
+Texture_02_C.png
