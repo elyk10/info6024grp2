@@ -52,12 +52,16 @@
 
 #include "cJSONLoader.h"
 
+#include "cScoreSystem.h"
+
 glm::vec3 g_cameraEye = glm::vec3(0.0, 30.0, 181.0f);
 glm::vec3 g_cameraTarget = glm::vec3(0.0f, 0.2f, -20.0f);
 glm::vec3 g_upVector = glm::vec3(0.0f, 1.0f, 0.0f);
 glm::vec3 g_cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 
 cPlayer* thePlayer = NULL; 
+
+cScoreSystem* g_ScoreSystem = NULL;
 
 double deltaTime = 0.0;
 
@@ -645,6 +649,9 @@ int main(void)
         }
     }
 
+    // create score system
+    g_ScoreSystem = new cScoreSystem();
+
     double animationTimer = 0.0;
     int animationNum = 0;
 
@@ -959,10 +966,13 @@ int main(void)
 
     // Delete everything
 
+    // update the players score before shutting down
+    g_ScoreSystem->updateScore(thePlayer);
 
     glfwDestroyWindow(window);
 
     delete g_theJSONLoader;
+    delete g_ScoreSystem;
 
     glfwTerminate();
     exit(EXIT_SUCCESS);

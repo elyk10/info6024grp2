@@ -8,10 +8,10 @@ cScoreDAO::cScoreDAO() :
 
 cScoreDAO::~cScoreDAO()
 {
-	if (m_db)
+	/*if (m_db)
 	{
 		delete m_db;
-	}
+	}*/
 }
 
 bool cScoreDAO::init(std::string dbFileName) 

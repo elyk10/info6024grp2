@@ -166,6 +166,7 @@
     <ClCompile Include="cPlayer.cpp" />
     <ClCompile Include="cJSONLoader.cpp" />
     <ClCompile Include="cScoreDAO.cpp" />
+    <ClCompile Include="cScoreSystem.cpp" />
     <ClCompile Include="cVAOManager\cVAOManager.cpp" />
     <ClCompile Include="cVAOManager\sModelDrawInfo.cpp" />
     <ClCompile Include="glad.c" />
@@ -206,6 +207,7 @@
     <ClInclude Include="cPlayer.h" />
     <ClInclude Include="cJSONLoader.h" />
     <ClInclude Include="cScoreDAO.h" />
+    <ClInclude Include="cScoreSystem.h" />
     <ClInclude Include="iCommand.h" />
     <ClInclude Include="LuaBrain\cLuaBrain.h" />
     <ClInclude Include="sqlite\sqlite3.h" />

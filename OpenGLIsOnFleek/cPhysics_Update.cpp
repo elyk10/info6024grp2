@@ -1,10 +1,13 @@
 #include "cPhysics.h"
-
+#include "cPlayer.h"
 
 #include <iostream>
 
 extern glm::vec3 g_cameraEye;
 extern glm::vec3 g_cameraTarget;
+
+// global player
+extern cPlayer* thePlayer;
 
 // HACK:
 void g_DrawDebugSphere(glm::vec3 position, float scale, glm::vec4 colourRGBA);
@@ -29,8 +32,9 @@ void cPhysics::Update(double deltaTime)
 			if (pObject->friendlyName == "player") {
 				std::cout << pObject->velocity.y << std::endl;
 				if (pObject->health <= 0) {
-					pObject->position = glm::vec3(0.0f, 5.0f, -20.0f );
-					pObject->health = 1000;
+					/*pObject->position = glm::vec3(0.0f, 5.0f, -20.0f );
+					pObject->health = 1000;*/
+					thePlayer->respawn(1000, glm::vec3(0.0f, 5.0f, -20.0f));
 					for (sPhsyicsProperties* pSubObject : this->m_vec_pPhysicalProps) {
 						if (pSubObject->friendlyName == "lavaTrap") {
 							pSubObject->setRotationFromEuler(glm::vec3(0.0f));

@@ -64,8 +64,14 @@
     <Filter Include="sqlite">
       <UniqueIdentifier>{f7dc3425-674c-4010-a7ff-574d92458d17}</UniqueIdentifier>
     </Filter>
-    <Filter Include="cScoreDAO">
+    <Filter Include="Score">
+      <UniqueIdentifier>{61d889a7-e87e-445f-bdc9-cd2f0423548d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Score\cScoreDAO">
       <UniqueIdentifier>{85346c71-4cbe-4034-a095-a390b1ce9ec0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Score\scoreSystem">
+      <UniqueIdentifier>{8840fee9-a7c8-4ad1-a72a-1b57b55edc54}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -169,7 +175,10 @@
       <Filter>sqlite</Filter>
     </ClCompile>
     <ClCompile Include="cScoreDAO.cpp">
-      <Filter>cScoreDAO</Filter>
+      <Filter>Score\cScoreDAO</Filter>
+    </ClCompile>
+    <ClCompile Include="cScoreSystem.cpp">
+      <Filter>Score\scoreSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -270,7 +279,10 @@
       <Filter>sqlite</Filter>
     </ClInclude>
     <ClInclude Include="cScoreDAO.h">
-      <Filter>cScoreDAO</Filter>
+      <Filter>Score\cScoreDAO</Filter>
+    </ClInclude>
+    <ClInclude Include="cScoreSystem.h">
+      <Filter>Score\scoreSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
