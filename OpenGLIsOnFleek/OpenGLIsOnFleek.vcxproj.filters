@@ -64,6 +64,9 @@
     <Filter Include="sqlite">
       <UniqueIdentifier>{f7dc3425-674c-4010-a7ff-574d92458d17}</UniqueIdentifier>
     </Filter>
+    <Filter Include="cScoreDAO">
+      <UniqueIdentifier>{85346c71-4cbe-4034-a095-a390b1ce9ec0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="theMain.cpp">
@@ -165,6 +168,9 @@
     <ClCompile Include="sqlite\sqlite3.c">
       <Filter>sqlite</Filter>
     </ClCompile>
+    <ClCompile Include="cScoreDAO.cpp">
+      <Filter>cScoreDAO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Basic Shader Manager\cShaderManager.h">
@@ -262,6 +268,9 @@
     </ClInclude>
     <ClInclude Include="sqlite\sqlite3ext.h">
       <Filter>sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="cScoreDAO.h">
+      <Filter>cScoreDAO</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
