@@ -5,6 +5,7 @@
 #include "sPhsyicsProperties.h"
 #include "cVAOManager/cVAOManager.h"		// For the mesh indirect
 #include <vector>
+#include "cAudioManager.h"
 
 #include "cAABB.h"
 

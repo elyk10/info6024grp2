@@ -142,6 +142,9 @@ glm::vec2 g_UVOffset = glm::vec2(0.0f, 0.0f);
 // mainly so that we can run scripts when we press keys
 cLuaBrain g_LuaBrain;
 
+//AUDIO
+AudioManager* m_Audio;
+
 // Silly Lua script binding example
 void ChangeTaylorSwiftTexture(std::string newTexture)
 {
@@ -279,6 +282,16 @@ static void error_callback(int error, const char* description)
 int main(void)
 {
     
+    //AUDIO STUFF
+    const glm::vec3 UP_VECTOR(0.f, 1.f, 0.f);
+    const glm::vec3 FORWARD_VECTOR(0.f, 0.f, -1.f);	// Change to -1
+    const glm::vec3 LEFT_VECTOR(1.f, 0.f, 0.f);
+    m_Audio = new AudioManager();
+    m_Audio->Initialize();
+
+    m_Audio->Load3DAudio("assets/audio/Bong.mp3");
+    m_Audio->Load3DAudio("assets/audio/stonescrape.mp3");
+
 
     cMesh bob;
 
@@ -655,12 +668,22 @@ int main(void)
     double animationTimer = 0.0;
     int animationNum = 0;
 
+   // int bong = m_Audio->PlayAudio("assets/audio/Bong.mp3", glm::vec3(0, 0, 0));
+   // int stone = m_Audio->PlayAudio("assets/audio/stonescrape.mp3", glm::vec3(0, 0, 0));
+
     while (!glfwWindowShouldClose(window))
     {
 
         // Switch the "main" shader
 //        shaderProgramID = pShaderThing->getIDFromFriendlyName("shader01");
 //        glUseProgram(shaderProgramID);
+        m_Audio->SetListenerAttributes(
+            g_cameraEye,
+            player->velocity,	// ignore velocity for now
+            player->get_qOrientation() * FORWARD_VECTOR, //glm::vec3(0, 0, -1)
+            UP_VECTOR	// glm::vec3(0,1,0)
+        );
+
 
         float ratio;
         int width, height;
