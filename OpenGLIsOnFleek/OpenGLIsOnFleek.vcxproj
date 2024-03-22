@@ -166,6 +166,7 @@
     <ClCompile Include="cPhysics_Update.cpp" />
     <ClCompile Include="cPlayer.cpp" />
     <ClCompile Include="cJSONLoader.cpp" />
+    <ClCompile Include="cScoreDAO.cpp" />
     <ClCompile Include="cVAOManager\cVAOManager.cpp" />
     <ClCompile Include="cVAOManager\sModelDrawInfo.cpp" />
     <ClCompile Include="glad.c" />
@@ -178,6 +179,7 @@
     </ClCompile>
     <ClCompile Include="ScenePersistence.cpp" />
     <ClCompile Include="sPhsyicsProperties.cpp" />
+    <ClCompile Include="sqlite\sqlite3.c" />
     <ClCompile Include="TextureManager\C24BitBMPpixel.cpp" />
     <ClCompile Include="TextureManager\cBasicTextureManager.cpp" />
     <ClCompile Include="TextureManager\CTextureFromBMP.cpp" />
@@ -205,8 +207,11 @@
     <ClInclude Include="cPhysics.h" />
     <ClInclude Include="cPlayer.h" />
     <ClInclude Include="cJSONLoader.h" />
+    <ClInclude Include="cScoreDAO.h" />
     <ClInclude Include="iCommand.h" />
     <ClInclude Include="LuaBrain\cLuaBrain.h" />
+    <ClInclude Include="sqlite\sqlite3.h" />
+    <ClInclude Include="sqlite\sqlite3ext.h" />
     <ClInclude Include="sTriangle.h" />
     <ClInclude Include="cVAOManager\cVAOManager.h" />
     <ClInclude Include="cVAOManager\sModelDrawInfo.h" />
