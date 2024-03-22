@@ -151,6 +151,7 @@ bool LoadModels(void)
             floor->bIsVisible = true;
             floor->textureName[0] = "Dungeons_2_Texture_01_A.bmp";
             floor->textureRatios[0] = 1.0f;
+            floor->alpha_transparency = 0.5f;
             ::g_vec_pMeshesToDraw.push_back(floor);
         }
     }

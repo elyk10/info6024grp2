@@ -61,6 +61,9 @@
     <Filter Include="cJSONLoader">
       <UniqueIdentifier>{32412be0-d383-4e00-9dc4-8f864d66add9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{19b13369-c439-4f59-88a3-959ee09bb3ef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="theMain.cpp">
@@ -159,6 +162,9 @@
     <ClCompile Include="cJSONLoader.cpp">
       <Filter>cJSONLoader</Filter>
     </ClCompile>
+    <ClCompile Include="cAudioManager.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Basic Shader Manager\cShaderManager.h">
@@ -250,6 +256,9 @@
     </ClInclude>
     <ClInclude Include="cJSONLoader.h">
       <Filter>cJSONLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="cAudioManager.h">
+      <Filter>Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

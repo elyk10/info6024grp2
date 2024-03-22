@@ -5,10 +5,12 @@
 
 extern glm::vec3 g_cameraEye;
 extern glm::vec3 g_cameraTarget;
-
+extern AudioManager* m_Audio;
 // HACK:
 void g_DrawDebugSphere(glm::vec3 position, float scale, glm::vec4 colourRGBA);
 
+int bong = -1;
+int launcher = -1;
 
 void cPhysics::Update(double deltaTime)
 {
@@ -27,8 +29,8 @@ void cPhysics::Update(double deltaTime)
 		if (pObject->inverse_mass >= 0.0f)
 		{
 			if (pObject->friendlyName == "player") {
-				std::cout << pObject->velocity.y << std::endl;
 				if (pObject->health <= 0) {
+					bong = m_Audio->PlayAudio("assets/audio/Bong.mp3", pObject->position);
 					pObject->position = glm::vec3(0.0f, 5.0f, -20.0f );
 					pObject->health = 1000;
 					for (sPhsyicsProperties* pSubObject : this->m_vec_pPhysicalProps) {
@@ -39,6 +41,26 @@ void cPhysics::Update(double deltaTime)
 							pSubObject->position.y = 0.0f;
 						}
 					}
+				}
+				else {
+
+				}
+			}
+			if (m_Audio->GetChannelPlaying(bong)) {
+				unsigned int pbPos;
+				m_Audio->GetPlaybackPosition(bong, pbPos);
+				unsigned int length = m_Audio->GetData("assets/audio/Bong.mp3");
+				if (pbPos >= 1800) {
+					m_Audio->StopAudio(bong);
+				}
+			}
+			if (m_Audio->GetChannelPlaying(launcher)) {
+				unsigned int pbPos;
+				m_Audio->GetPlaybackPosition(launcher, pbPos);
+				unsigned int length = m_Audio->GetData("assets/audio/stonescrape.mp3");
+				std::cout << pbPos << std::endl;
+				if (pbPos >= 4500) {
+					m_Audio->StopAudio(launcher);
 				}
 			}
 			// Explicit forward Euler "integration step"
@@ -160,6 +182,7 @@ void cPhysics::Update(double deltaTime)
 							pObjectB->velocity = glm::vec3(0.0f, 25.0f, 0.0f);
 							pObjectA->position.y += 0.75f;
 							pObjectA->velocity = glm::vec3(0.0f, 50.0f, 0.0f);
+							launcher = m_Audio->PlayAudio("assets/audio/stonescrape.mp3", pObjectB->position);
 							touchingHole = true;
 							continue;
 						}
