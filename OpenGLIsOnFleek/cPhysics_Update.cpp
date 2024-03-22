@@ -34,12 +34,10 @@ void cPhysics::Update(double deltaTime)
 		{
 			if (pObject->friendlyName == "player") {
 				if (pObject->health <= 0) {
-					/*pObject->position = glm::vec3(0.0f, 5.0f, -20.0f );
-					pObject->health = 1000;*/
+
 					thePlayer->respawn(1000, glm::vec3(0.0f, 5.0f, -20.0f));
 					bong = m_Audio->PlayAudio("assets/audio/Bong.mp3", pObject->position);
-					pObject->position = glm::vec3(0.0f, 5.0f, -20.0f );
-					pObject->health = 1000;
+
 					for (sPhsyicsProperties* pSubObject : this->m_vec_pPhysicalProps) {
 						if (pSubObject->friendlyName == "lavaTrap") {
 							pSubObject->setRotationFromEuler(glm::vec3(0.0f));
