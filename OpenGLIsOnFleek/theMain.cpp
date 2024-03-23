@@ -59,13 +59,13 @@ glm::vec3 g_cameraTarget = glm::vec3(0.0f, 0.2f, -20.0f);
 glm::vec3 g_upVector = glm::vec3(0.0f, 1.0f, 0.0f);
 glm::vec3 g_cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 
-cPlayer* thePlayer = NULL; 
+cPlayer* thePlayer = NULL;
 
 cScoreSystem* g_ScoreSystem = NULL;
 
 double deltaTime = 0.0;
 
-bool thirdPersonView = true; 
+bool thirdPersonView = true;
 
 bool isMoving = false;
 
@@ -128,7 +128,7 @@ void DrawObject(cMesh* pCurrentMesh, glm::mat4 matModel, GLuint shaderProgramID)
 cMesh* g_pFindMeshByFriendlyName(std::string friendlyNameToFind);
 
 void DrawLightDebugSpheres(glm::mat4 matProjection, glm::mat4 matView,
-                           GLuint shaderProgramID);
+    GLuint shaderProgramID);
 
 float getRandomFloat(float a, float b);
 
@@ -142,19 +142,22 @@ glm::vec2 g_UVOffset = glm::vec2(0.0f, 0.0f);
 // mainly so that we can run scripts when we press keys
 cLuaBrain g_LuaBrain;
 
+int bong = -1;
+int launcher = -1;
+
 //AUDIO
 AudioManager* m_Audio;
 
 // Silly Lua script binding example
 void ChangeTaylorSwiftTexture(std::string newTexture)
 {
-//    pGroundMesh->friendlyName = "Ground";
-//    pGroundMesh->textureName[0] = "TaylorSwift_Eras_Poster.bmp";
+    //    pGroundMesh->friendlyName = "Ground";
+    //    pGroundMesh->textureName[0] = "TaylorSwift_Eras_Poster.bmp";
 
     cMesh* pGround = g_pFindMeshByFriendlyName("Ground");
-    if ( pGround )
+    if (pGround)
     {
-//        pGround->textureName[0] = "TaylorSwift_Eras_Poster.bmp";
+        //        pGround->textureName[0] = "TaylorSwift_Eras_Poster.bmp";
         pGround->textureName[0] = newTexture;   // "SpidermanUV_square.bmp";
     }
     return;
@@ -163,12 +166,12 @@ void ChangeTaylorSwiftTexture(std::string newTexture)
 // Here the same sort of thing, but that Lua can call
 int lua_ChangeTaylorSwiftTexture(lua_State* L)
 {
-//    ChangeTaylorSwiftTexture("SpidermanUV_square.bmp");
+    //    ChangeTaylorSwiftTexture("SpidermanUV_square.bmp");
 
-    // Look up whatever was passed on the stack
-    // https://www.lua.org/pil/24.2.2.html:
-    // "The first element in the stack (that is, the element that was pushed first) 
-    //    has index 1, the next one has index 2, and so on."
+        // Look up whatever was passed on the stack
+        // https://www.lua.org/pil/24.2.2.html:
+        // "The first element in the stack (that is, the element that was pushed first) 
+        //    has index 1, the next one has index 2, and so on."
 
     const char* bitMapName = lua_tostring(L, 1);
     std::string sBitMapName(bitMapName);
@@ -205,16 +208,16 @@ int lua_AddSerialMoveObjectCommand(lua_State* L)
     destinationXYZ.z = (float)lua_tonumber(L, 4);     // Dz (destination Z)
     float timeInSeconds = (float)lua_tonumber(L, 5);   // timeInSeconds
 
-//    cCommand_MoveTo moveBathTub(pBathTub,
-//                                pBathTub->getDrawPosition(),
-//                                glm::vec3(50.0f, 0.0f, 0.0f),
-//                                10.0f);
+    //    cCommand_MoveTo moveBathTub(pBathTub,
+    //                                pBathTub->getDrawPosition(),
+    //                                glm::vec3(50.0f, 0.0f, 0.0f),
+    //                                10.0f);
 
     cCommand_MoveTo moveBathTub(pBathTub,
-                                pBathTub->getDrawPosition(),
-                                destinationXYZ,
-                                timeInSeconds);
- 
+        pBathTub->getDrawPosition(),
+        destinationXYZ,
+        timeInSeconds);
+
     ::g_vecAnimationCommands.push_back(moveBathTub);
 
 
@@ -239,19 +242,49 @@ int lua_GetMeshPositionByFriendlyName(lua_State* L)
     {
         // 1st parameter: indicate if this object was found
         lua_pushboolean(L, true);
-        lua_pushnumber( L, pBathTub->getDrawPosition().x);
-        lua_pushnumber( L, pBathTub->getDrawPosition().y );
-        lua_pushnumber( L, pBathTub->getDrawPosition().z );
+        lua_pushnumber(L, pBathTub->getDrawPosition().x);
+        lua_pushnumber(L, pBathTub->getDrawPosition().y);
+        lua_pushnumber(L, pBathTub->getDrawPosition().z);
         // Tell Lua how many things got pushed onto the stack
         return 4;
     }
-    
+
     // Didn't find it
     lua_pushboolean(L, false);
 
     // We returned 1 value, a "false"
     return 1;
 }
+
+int lua_PlayAudio(lua_State* L)
+{
+    const char* filePath = lua_tostring(L, 1);
+    // int sound = -1;
+    const char* stoneScrapingSound = "assets/audio/stonescrape.mp3";
+    const char* bongSound = "assets/audio/Bong.mp3";
+
+    const char* soundPath = NULL;
+
+    if (strcmp(stoneScrapingSound, filePath) == 0)
+    {
+        soundPath = stoneScrapingSound;
+        if (launcher < 0)
+        {
+            launcher = m_Audio->PlayAudio(soundPath, thePlayer->thePhysics->position);
+        }
+    }
+    else if (strcmp(bongSound, filePath) == 0)
+    {
+        soundPath = bongSound;
+        if (bong < 0)
+        {
+            bong = m_Audio->PlayAudio(soundPath, thePlayer->thePhysics->position);
+        }
+    }
+
+    return 0;
+}
+
 
 int lua_SetMeshPositionByFriendlyName(lua_State* L)
 {
@@ -281,7 +314,7 @@ static void error_callback(int error, const char* description)
 
 int main(void)
 {
-    
+
     //AUDIO STUFF
     const glm::vec3 UP_VECTOR(0.f, 1.f, 0.f);
     const glm::vec3 FORWARD_VECTOR(0.f, 0.f, -1.f);	// Change to -1
@@ -298,8 +331,8 @@ int main(void)
     std::cout << "About to blow you mind with OpenGL!" << std::endl;
 
     GLFWwindow* window;
-//    GLuint vertex_buffer; //, vertex_shader, fragment_shader;//v , program;
-//    GLint mvp_location;// , vpos_location, vcol_location;
+    //    GLuint vertex_buffer; //, vertex_shader, fragment_shader;//v , program;
+    //    GLint mvp_location;// , vpos_location, vcol_location;
 
     glfwSetErrorCallback(error_callback);
 
@@ -317,18 +350,18 @@ int main(void)
     }
 
     glfwSetKeyCallback(window, key_callback);
-    glfwSetCursorPosCallback(window, cursor_position_callback); 
+    glfwSetCursorPosCallback(window, cursor_position_callback);
 
     glfwMakeContextCurrent(window);
-    gladLoadGLLoader( (GLADloadproc)glfwGetProcAddress);
+    gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
     glfwSwapInterval(1);
 
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); // hide cursor and lock it to the screen
 
 
-//    cHiResTimer* p_HRTimer = new cHiResTimer();
-    // Get average of last 30 frames
-//    cHiResTimer* p_HRTimer = new cHiResTimer(32);
+    //    cHiResTimer* p_HRTimer = new cHiResTimer();
+        // Get average of last 30 frames
+    //    cHiResTimer* p_HRTimer = new cHiResTimer(32);
     cHiResTimer* p_HRTimer = new cHiResTimer(60);
 
 
@@ -341,7 +374,7 @@ int main(void)
     cShaderManager::cShader fragmentShader;
     fragmentShader.fileName = "fragmentShader01.glsl";
 
-    if ( ! pShaderThing->createProgramFromFile("shader01", vertexShader, fragmentShader ) )
+    if (!pShaderThing->createProgramFromFile("shader01", vertexShader, fragmentShader))
     {
         std::cout << "Error: Couldn't compile or link:" << std::endl;
         std::cout << pShaderThing->getLastError();
@@ -349,7 +382,7 @@ int main(void)
     }
 
 
-//
+    //
     GLuint shaderProgramID = pShaderThing->getIDFromFriendlyName("shader01");
 
     // Set the debug shader ID we're going to use
@@ -381,7 +414,7 @@ int main(void)
         if (layout->filesToLoad[i] != "camera")
         {
             ::g_pMeshManager->LoadModelIntoVAO(layout->filesToLoad[i], tempModelInfo, shaderProgramID);
-           // std::cout << "Loaded: h[" << tempModelInfo.numberOfVertices << " vertices" << std::endl;
+            // std::cout << "Loaded: h[" << tempModelInfo.numberOfVertices << " vertices" << std::endl;
 
         }
         else if (layout->filesToLoad[i] == "camera")
@@ -396,48 +429,48 @@ int main(void)
     ::g_pMeshManager->LoadModelIntoVAO("SM_Env_Dwarf_Stairs_01.ply",
         stairs, shaderProgramID);
     std::cout << "Loaded: " << stairs.numberOfVertices << " vertices" << std::endl;
-//
-//    sModelDrawInfo terrainDrawingInfo;
-////    ::g_pMeshManager->LoadModelIntoVAO("Terrain_xyz_n_rgba.ply",
-//    ::g_pMeshManager->LoadModelIntoVAO("Terrain_xyz_n_rgba_uv.ply",
-//                                   terrainDrawingInfo, shaderProgramID);
-//    std::cout << "Loaded: " << terrainDrawingInfo.numberOfVertices << " vertices" << std::endl;
-//
-//    ::g_pMeshManager->LoadModelIntoVAO("Big_Flat_Mesh_256x256_00_132K_xyz_n_rgba_uv.ply",
-//                                   terrainDrawingInfo, shaderProgramID);
-//    std::cout << "Loaded: " << terrainDrawingInfo.numberOfVertices << " vertices" << std::endl;
-//
-//    ::g_pMeshManager->LoadModelIntoVAO("Big_Flat_Mesh_256x256_12_5_xyz_n_rgba_uv.ply",
-//                                   terrainDrawingInfo, shaderProgramID);
-//    std::cout << "Loaded: " << terrainDrawingInfo.numberOfVertices << " vertices" << std::endl;
-//
-//    ::g_pMeshManager->LoadModelIntoVAO("Big_Flat_Mesh_256x256_07_1K_xyz_n_rgba_uv.ply",
-//                                   terrainDrawingInfo, shaderProgramID);
-//    std::cout << "Loaded: " << terrainDrawingInfo.numberOfVertices << " vertices" << std::endl;
+    //
+    //    sModelDrawInfo terrainDrawingInfo;
+    ////    ::g_pMeshManager->LoadModelIntoVAO("Terrain_xyz_n_rgba.ply",
+    //    ::g_pMeshManager->LoadModelIntoVAO("Terrain_xyz_n_rgba_uv.ply",
+    //                                   terrainDrawingInfo, shaderProgramID);
+    //    std::cout << "Loaded: " << terrainDrawingInfo.numberOfVertices << " vertices" << std::endl;
+    //
+    //    ::g_pMeshManager->LoadModelIntoVAO("Big_Flat_Mesh_256x256_00_132K_xyz_n_rgba_uv.ply",
+    //                                   terrainDrawingInfo, shaderProgramID);
+    //    std::cout << "Loaded: " << terrainDrawingInfo.numberOfVertices << " vertices" << std::endl;
+    //
+    //    ::g_pMeshManager->LoadModelIntoVAO("Big_Flat_Mesh_256x256_12_5_xyz_n_rgba_uv.ply",
+    //                                   terrainDrawingInfo, shaderProgramID);
+    //    std::cout << "Loaded: " << terrainDrawingInfo.numberOfVertices << " vertices" << std::endl;
+    //
+    //    ::g_pMeshManager->LoadModelIntoVAO("Big_Flat_Mesh_256x256_07_1K_xyz_n_rgba_uv.ply",
+    //                                   terrainDrawingInfo, shaderProgramID);
+    //    std::cout << "Loaded: " << terrainDrawingInfo.numberOfVertices << " vertices" << std::endl;
 
 
-//    sModelDrawInfo HilbertRampDrawingInfo;
-//    ::g_pMeshManager->LoadModelIntoVAO("HilbertRamp_stl (rotated).ply",
-//                                       HilbertRampDrawingInfo, shaderProgramID);
-//    std::cout << "Loaded: " << HilbertRampDrawingInfo.numberOfVertices << " vertices" << std::endl;
-//
-//    sModelDrawInfo gridDrawingInfo;
-//    ::g_pMeshManager->LoadModelIntoVAO("Flat_Grid_100x100.ply",
-//                                   gridDrawingInfo, shaderProgramID);
-//    std::cout << "Loaded: " << gridDrawingInfo.numberOfVertices << " vertices" << std::endl;
+    //    sModelDrawInfo HilbertRampDrawingInfo;
+    //    ::g_pMeshManager->LoadModelIntoVAO("HilbertRamp_stl (rotated).ply",
+    //                                       HilbertRampDrawingInfo, shaderProgramID);
+    //    std::cout << "Loaded: " << HilbertRampDrawingInfo.numberOfVertices << " vertices" << std::endl;
+    //
+    //    sModelDrawInfo gridDrawingInfo;
+    //    ::g_pMeshManager->LoadModelIntoVAO("Flat_Grid_100x100.ply",
+    //                                   gridDrawingInfo, shaderProgramID);
+    //    std::cout << "Loaded: " << gridDrawingInfo.numberOfVertices << " vertices" << std::endl;
 
     sModelDrawInfo sphereDrawingInfo;
-//    ::g_pMeshManager->LoadModelIntoVAO("Sphere_1_unit_Radius.ply",
+    //    ::g_pMeshManager->LoadModelIntoVAO("Sphere_1_unit_Radius.ply",
     ::g_pMeshManager->LoadModelIntoVAO("Sphere_1_unit_Radius_xyz_n_rgba_uv.ply",
-                                   sphereDrawingInfo, shaderProgramID);
+        sphereDrawingInfo, shaderProgramID);
     std::cout << "Loaded: " << sphereDrawingInfo.numberOfVertices << " vertices" << std::endl;
 
-//    sModelDrawInfo Flat_1x1_planeDrawingInfo;
-//    ::g_pMeshManager->LoadModelIntoVAO("Flat_1x1_plane.ply",
-//                                       Flat_1x1_planeDrawingInfo, shaderProgramID);
-//    std::cout << "Loaded: " << Flat_1x1_planeDrawingInfo.numberOfVertices << " vertices" << std::endl;
+    //    sModelDrawInfo Flat_1x1_planeDrawingInfo;
+    //    ::g_pMeshManager->LoadModelIntoVAO("Flat_1x1_plane.ply",
+    //                                       Flat_1x1_planeDrawingInfo, shaderProgramID);
+    //    std::cout << "Loaded: " << Flat_1x1_planeDrawingInfo.numberOfVertices << " vertices" << std::endl;
 
-    // Spiderman
+        // Spiderman
     sModelDrawInfo spiderMan;
 
     //::g_pMeshManager->LoadModelIntoVAO("legospiderman_body_xyz_n_rgba_uv.ply", spiderMan, shaderProgramID);
@@ -454,13 +487,13 @@ int main(void)
     //::g_pMeshManager->LoadModelIntoVAO("legospiderman_Right_leg_xyz_n_rgba_uv.ply", spiderMan, shaderProgramID);
 
     bool wireMeshes = false;
-        
+
     // ... and so on
 
     ::g_pTextureManager = new cBasicTextureManager();
 
-    ::g_pTextureManager->SetBasePath("assets/textures"); 
-    if ( ::g_pTextureManager->Create2DTextureFromBMPFile("Texture_01_A.bmp", true) )
+    ::g_pTextureManager->SetBasePath("assets/textures");
+    if (::g_pTextureManager->Create2DTextureFromBMPFile("Texture_01_A.bmp", true))
     {
         std::cout << "Loaded the Taylor Swift texture" << std::endl;
     }
@@ -472,9 +505,9 @@ int main(void)
     //::g_pTextureManager->Create2DTextureFromBMPFile("Blank_UV_Text_Texture.bmp", true);
     //::g_pTextureManager->Create2DTextureFromBMPFile("SpidermanUV_square.bmp", true);
     ::g_pTextureManager->Create2DTextureFromBMPFile("Water_Texture_01.bmp", true);
-   //::g_pTextureManager->Create2DTextureFromBMPFile("taylor-swift-jimmy-fallon.bmp", true);
-    //::g_pTextureManager->Create2DTextureFromBMPFile("sand.bmp", true);
-    //::g_pTextureManager->Create2DTextureFromBMPFile("landShape.bmp", true);
+    //::g_pTextureManager->Create2DTextureFromBMPFile("taylor-swift-jimmy-fallon.bmp", true);
+     //::g_pTextureManager->Create2DTextureFromBMPFile("sand.bmp", true);
+     //::g_pTextureManager->Create2DTextureFromBMPFile("landShape.bmp", true);
     ::g_pTextureManager->Create2DTextureFromBMPFile("Dungeons_2_Texture_01_A.bmp", true);
     ::g_pTextureManager->Create2DTextureFromBMPFile("flames.bmp", true);
     ::g_pTextureManager->Create2DTextureFromBMPFile("fire.bmp", true);
@@ -482,7 +515,7 @@ int main(void)
     ::g_pTextureManager->Create2DTextureFromBMPFile("scavengertexture.bmp", true);
     // Load the HUGE height map
     ::g_pTextureManager->Create2DTextureFromBMPFile("NvF5e_height_map.bmp", true);
-    
+
     // Using this for discard transparency mask
     ::g_pTextureManager->Create2DTextureFromBMPFile("FAKE_Stencil_Texture_612x612.bmp", true);
 
@@ -490,24 +523,24 @@ int main(void)
     ::g_pTextureManager->SetBasePath("assets/textures/CubeMaps");
     std::string errors;
     ::g_pTextureManager->CreateCubeTextureFromBMPFiles("space",
-                                                       "SpaceBox_right1_posX.bmp",
-                                                       "SpaceBox_left2_negX.bmp",
-                                                       "SpaceBox_top3_posY.bmp",
-                                                       "SpaceBox_bottom4_negY.bmp",
-                                                       "SpaceBox_front5_posZ.bmp",
-                                                       "SpaceBox_back6_negZ.bmp",
-                                                       true,
-                                                       errors);
+        "SpaceBox_right1_posX.bmp",
+        "SpaceBox_left2_negX.bmp",
+        "SpaceBox_top3_posY.bmp",
+        "SpaceBox_bottom4_negY.bmp",
+        "SpaceBox_front5_posZ.bmp",
+        "SpaceBox_back6_negZ.bmp",
+        true,
+        errors);
 
     ::g_pTextureManager->CreateCubeTextureFromBMPFiles("SunnyDay",
-                                                       "TropicalSunnyDayLeft2048.bmp",
-                                                       "TropicalSunnyDayRight2048.bmp",
-                                                       "TropicalSunnyDayUp2048.bmp",
-                                                       "TropicalSunnyDayDown2048.bmp",
-                                                       "TropicalSunnyDayFront2048.bmp",
-                                                       "TropicalSunnyDayBack2048.bmp",
-                                                       true,
-                                                       errors);
+        "TropicalSunnyDayLeft2048.bmp",
+        "TropicalSunnyDayRight2048.bmp",
+        "TropicalSunnyDayUp2048.bmp",
+        "TropicalSunnyDayDown2048.bmp",
+        "TropicalSunnyDayFront2048.bmp",
+        "TropicalSunnyDayBack2048.bmp",
+        true,
+        errors);
 
 
     // This handles the phsyics objects
@@ -527,7 +560,7 @@ int main(void)
         thePlayer->moveDir = glm::vec3(0.0f);
     } */
 
-//    LoadTheRobotronModels(shaderProgramID);
+    //    LoadTheRobotronModels(shaderProgramID);
 
 
     ::g_pTheLights = new cLightManager();
@@ -535,7 +568,7 @@ int main(void)
     ::g_pTheLights->SetUniformLocations(shaderProgramID);
 
     ::g_pTheLights->theLights[0].param2.x = 0.0f;   // Turn on
-//    ::g_pTheLights->theLights[0].param1.x = 0.0f;   // 0 = point light
+    //    ::g_pTheLights->theLights[0].param1.x = 0.0f;   // 0 = point light
     ::g_pTheLights->theLights[0].param1.x = 1.0f;   // 1 = spot light
     // With spots, set direction (relative)
     ::g_pTheLights->theLights[0].direction = glm::vec4(0.0f, -1.0f, 0.0f, 1.0f);
@@ -614,37 +647,37 @@ int main(void)
 
     // Direction with respect of the light.
     ::g_pTheLights->theLights[4].direction = glm::normalize(glm::vec4(-0.5f, -1.0f, -1.0f, 1.0f));
-//    float lightBrightness = 0.7f;
+    //    float lightBrightness = 0.7f;
     ::g_pTheLights->theLights[4].diffuse = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
     ::g_pTheLights->theLights[4].specular = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
-    
 
-//    glm::vec3 cameraEye = glm::vec3(10.0, 5.0, -15.0f);
+
+    //    glm::vec3 cameraEye = glm::vec3(10.0, 5.0, -15.0f);
     float yaxisRotation = 0.0f;
 
     double lastTime = glfwGetTime();
 
-// *************************************************************************************
-    // These are the commands we are going to process
-//    std::vector<cCommand_MoveTo> vecAnimationCommands;
-//
-//    cMesh* pBathTub = g_pFindMeshByFriendlyName("bathtub");
-//
-//    cCommand_MoveTo moveBathTub(pBathTub,
-//                                pBathTub->getDrawPosition(),
-//                                glm::vec3(50.0f, 0.0f, 0.0f),
-//                                10.0f);
-//    ::g_vecAnimationCommands.push_back(moveBathTub);
-//
-//
-//    cCommand_MoveTo moveBathTub2(pBathTub,
-//                                pBathTub->getDrawPosition(),
-//                                glm::vec3(-30.0f, 10.0f, 16.0f),
-//                                5.0f);
-//    ::g_vecAnimationCommands.push_back(moveBathTub2);
-//
-// *************************************************************************************
+    // *************************************************************************************
+        // These are the commands we are going to process
+    //    std::vector<cCommand_MoveTo> vecAnimationCommands;
+    //
+    //    cMesh* pBathTub = g_pFindMeshByFriendlyName("bathtub");
+    //
+    //    cCommand_MoveTo moveBathTub(pBathTub,
+    //                                pBathTub->getDrawPosition(),
+    //                                glm::vec3(50.0f, 0.0f, 0.0f),
+    //                                10.0f);
+    //    ::g_vecAnimationCommands.push_back(moveBathTub);
+    //
+    //
+    //    cCommand_MoveTo moveBathTub2(pBathTub,
+    //                                pBathTub->getDrawPosition(),
+    //                                glm::vec3(-30.0f, 10.0f, 16.0f),
+    //                                5.0f);
+    //    ::g_vecAnimationCommands.push_back(moveBathTub2);
+    //
+    // *************************************************************************************
     int nextSecond = 1;
 
 
@@ -668,8 +701,8 @@ int main(void)
     double animationTimer = 0.0;
     int animationNum = 0;
 
-   // int bong = m_Audio->PlayAudio("assets/audio/Bong.mp3", glm::vec3(0, 0, 0));
-   // int stone = m_Audio->PlayAudio("assets/audio/stonescrape.mp3", glm::vec3(0, 0, 0));
+    // int bong = m_Audio->PlayAudio("assets/audio/Bong.mp3", glm::vec3(0, 0, 0));
+    // int stone = m_Audio->PlayAudio("assets/audio/stonescrape.mp3", glm::vec3(0, 0, 0));
 
     while (!glfwWindowShouldClose(window))
     {
@@ -694,7 +727,7 @@ int main(void)
         ratio = width / (float)height;
 
         glViewport(0, 0, width, height);
-        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // While drawing a pixel, see if the pixel that's already there is closer or not?
         glEnable(GL_DEPTH_TEST);
@@ -702,26 +735,26 @@ int main(void)
         glCullFace(GL_BACK);
 
 
-// *****************************************************************
+        // *****************************************************************
 
         ::g_pTheLights->UpdateUniformValues(shaderProgramID);
 
 
-// *****************************************************************
-        //uniform vec4 eyeLocation;
+        // *****************************************************************
+                //uniform vec4 eyeLocation;
         GLint eyeLocation_UL = glGetUniformLocation(shaderProgramID, "eyeLocation");
         glUniform4f(eyeLocation_UL,
-                    ::g_cameraEye.x, ::g_cameraEye.y, ::g_cameraEye.z, 1.0f);
+            ::g_cameraEye.x, ::g_cameraEye.y, ::g_cameraEye.z, 1.0f);
 
 
 
-//       //mat4x4_ortho(p, -ratio, ratio, -1.f, 1.f, 1.f, -1.f);
+        //       //mat4x4_ortho(p, -ratio, ratio, -1.f, 1.f, 1.f, -1.f);
         glm::mat4 matProjection = glm::perspective(0.6f,
-                                                   ratio,
-                                                   0.1f,        // Near (as big)
-                                                   10'000.0f);    // Far (as small)
+            ratio,
+            0.1f,        // Near (as big)
+            10'000.0f);    // Far (as small)
 
-        
+
         glm::mat4 matView;
         // first person
         if (!thirdPersonView)
@@ -781,7 +814,7 @@ int main(void)
                 pos++;
             }
         }
-        
+
         // bubble sort for transparency objects
         for (int i = 0; i < ::g_vec_pMeshesToDraw.size() - 1; i++)
         {
@@ -797,10 +830,10 @@ int main(void)
                     std::swap(::g_vec_pMeshesToDraw[j], ::g_vec_pMeshesToDraw[j + 1]);
             }
         }
-        
+
         // *********************************************************************
         // Draw all the objects
-        for ( unsigned int index = 0; index != ::g_vec_pMeshesToDraw.size(); index++ )
+        for (unsigned int index = 0; index != ::g_vec_pMeshesToDraw.size(); index++)
         {
             cMesh* pCurrentMesh = ::g_vec_pMeshesToDraw[index];
 
@@ -816,27 +849,27 @@ int main(void)
         // *********************************************************************
 
 
-        
 
 
 
 
- 
+
+
 //        // Time per frame (more or less)
         double currentTime = glfwGetTime();
-       
-//        double deltaTime = currentTime - lastTime;
-//        // We should add this to a list of times, and get the average frame time
-//        const double LARGEST_DELTA_TIME = 1.0f / 30.0f; // 30FPS  (16 ms)  24 FPS
-//        if ( deltaTime > LARGEST_DELTA_TIME )
-//        {
-//            deltaTime = LARGEST_DELTA_TIME;
-//        }
-//        std::cout << deltaTime << std::endl;
-//        lastTime = currentTime;
+
+        //        double deltaTime = currentTime - lastTime;
+        //        // We should add this to a list of times, and get the average frame time
+        //        const double LARGEST_DELTA_TIME = 1.0f / 30.0f; // 30FPS  (16 ms)  24 FPS
+        //        if ( deltaTime > LARGEST_DELTA_TIME )
+        //        {
+        //            deltaTime = LARGEST_DELTA_TIME;
+        //        }
+        //        std::cout << deltaTime << std::endl;
+        //        lastTime = currentTime;
 
         deltaTime = p_HRTimer->getFrameTime();
-        
+
         if ((int)currentTime == nextSecond)
         {
             if (nextSecond % 4 == 0)
@@ -855,7 +888,7 @@ int main(void)
             {
                 ::g_UVOffset.y -= 0.5f;
             }
-            
+
             nextSecond++;
         }
 
@@ -876,13 +909,13 @@ int main(void)
             animationTimer = 0.0;
         }
 
-// ***********************************************************************
-        if ( ! ::g_vecAnimationCommands.empty() )
+        // ***********************************************************************
+        if (!::g_vecAnimationCommands.empty())
         {
             ::g_vecAnimationCommands[0].Update(deltaTime);
 
             // Done? 
-            if (::g_vecAnimationCommands[0].isDone() )
+            if (::g_vecAnimationCommands[0].isDone())
             {
                 // Erase the item from vector
                 // Is "slow" in that it has to copy the vector again
@@ -899,7 +932,7 @@ int main(void)
 
         // Point the spotlight at the bathtub
         cMesh* pBathTub = g_pFindMeshByFriendlyName("bathtub");
-        if ( pBathTub )
+        if (pBathTub)
         {
             glm::vec3 bathTubToLightRay = pBathTub->drawPosition - glm::vec3(::g_pTheLights->theLights[0].position);
 
@@ -910,47 +943,47 @@ int main(void)
 
         // HACK:
         cMesh* pSpidey = g_pFindMeshByFriendlyName("SpiderManBody");
-//        pSpidey->drawOrientation.y += 0.001f;
-        if ( pSpidey )
+        //        pSpidey->drawOrientation.y += 0.001f;
+        if (pSpidey)
         {
             pSpidey->adjustRoationAngleFromEuler(glm::vec3(0.0f, 0.0f, 0.001f));
         }
 
-//        cMesh* pTayTayGround = g_pFindMeshByFriendlyName("Ground");
-//        pTayTayGround->textureRatios[1] += 0.0001f;
-//        pTayTayGround->textureRatios[0] = 1.0f - pTayTayGround->textureRatios[1];
+        //        cMesh* pTayTayGround = g_pFindMeshByFriendlyName("Ground");
+        //        pTayTayGround->textureRatios[1] += 0.0001f;
+        //        pTayTayGround->textureRatios[0] = 1.0f - pTayTayGround->textureRatios[1];
 
 
 
-//        pSpidey->drawPosition.x += 0.01f;
+        //        pSpidey->drawPosition.x += 0.01f;
 
 
-//        // HACK: See where the sphere is on the surface of the "ground"
-//        cMesh* pBouncingSphere = g_pFindMeshByFriendlyName("Sphere");
-//        if ( pBouncingSphere )
-//        {
-//            cMesh* pGround = g_pFindMeshByFriendlyName("Ground");
-//            // Place this sphere right above the "ground"
-//            
-//            cMesh* pDebugSphere = g_pFindMeshByFriendlyName("DEBUG_SPHERE");
-//
-//            sTransformInfo bouncingSphereTrans = pBouncingSphere->getTransformInfo();
-//            // Place it where it intersects the ground
-//            bouncingSphereTrans.position.y = pGround->getTransformInfo().position.y;
-//
-//            pDebugSphere->setTransformInfo(bouncingSphereTrans);
-//            //
-//            pDebugSphere->bIsVisible = true;
-//            pDebugSphere->bUseDebugColours = true;
-//            pDebugSphere->wholeObjectDebugColourRGBA = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-//
-//            DrawObject(pDebugSphere, glm::mat4(1.0f), shaderProgramID);
-//
-//            pDebugSphere->bIsVisible = false;
-//        }
+        //        // HACK: See where the sphere is on the surface of the "ground"
+        //        cMesh* pBouncingSphere = g_pFindMeshByFriendlyName("Sphere");
+        //        if ( pBouncingSphere )
+        //        {
+        //            cMesh* pGround = g_pFindMeshByFriendlyName("Ground");
+        //            // Place this sphere right above the "ground"
+        //            
+        //            cMesh* pDebugSphere = g_pFindMeshByFriendlyName("DEBUG_SPHERE");
+        //
+        //            sTransformInfo bouncingSphereTrans = pBouncingSphere->getTransformInfo();
+        //            // Place it where it intersects the ground
+        //            bouncingSphereTrans.position.y = pGround->getTransformInfo().position.y;
+        //
+        //            pDebugSphere->setTransformInfo(bouncingSphereTrans);
+        //            //
+        //            pDebugSphere->bIsVisible = true;
+        //            pDebugSphere->bUseDebugColours = true;
+        //            pDebugSphere->wholeObjectDebugColourRGBA = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+        //
+        //            DrawObject(pDebugSphere, glm::mat4(1.0f), shaderProgramID);
+        //
+        //            pDebugSphere->bIsVisible = false;
+        //        }
 
-        // 
-//        DoPhysicUpdate(deltaTime);
+                // 
+        //        DoPhysicUpdate(deltaTime);
 
         ::g_pPhysics->Update(deltaTime);
 
@@ -978,11 +1011,11 @@ int main(void)
             << ::g_cameraTarget.y << ", "
             << ::g_cameraTarget.z << ". ";
 
-//        glfwSetWindowTitle(window, "HEY!");
+        //        glfwSetWindowTitle(window, "HEY!");
 
         std::string theTitle = ssTitle.str();
 
-        glfwSetWindowTitle(window, theTitle.c_str() );
+        glfwSetWindowTitle(window, theTitle.c_str());
 
 
     }
@@ -1004,9 +1037,9 @@ int main(void)
 // Returns NULL if not found
 cMesh* g_pFindMeshByFriendlyName(std::string friendlyNameToFind)
 {
-    for ( unsigned int index = 0; index != ::g_vec_pMeshesToDraw.size(); index++ )
+    for (unsigned int index = 0; index != ::g_vec_pMeshesToDraw.size(); index++)
     {
-        if ( ::g_vec_pMeshesToDraw[index]->friendlyName == friendlyNameToFind )
+        if (::g_vec_pMeshesToDraw[index]->friendlyName == friendlyNameToFind)
         {
             // Found it
             return ::g_vec_pMeshesToDraw[index];
@@ -1018,9 +1051,9 @@ cMesh* g_pFindMeshByFriendlyName(std::string friendlyNameToFind)
 
 
 void DrawLightDebugSpheres(glm::mat4 matProjection, glm::mat4 matView,
-                           GLuint shaderProgramID)
+    GLuint shaderProgramID)
 {
-    if ( ! ::g_drawDebugLightSpheres )
+    if (!::g_drawDebugLightSpheres)
     {
         return;
     }
@@ -1029,7 +1062,7 @@ void DrawLightDebugSpheres(glm::mat4 matProjection, glm::mat4 matView,
 
     // Small white sphere where the light is
     ::g_DrawDebugSphere(::g_pTheLights->theLights[g_selectedLight].position,
-                        0.5f, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+        0.5f, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 
     cLightHelper lightHelper;
 
@@ -1042,42 +1075,42 @@ void DrawLightDebugSpheres(glm::mat4 matProjection, glm::mat4 matView,
     // Draw a red sphere at 75% brightness
     {
         float distAt75Percent = lightHelper.calcApproxDistFromAtten(0.75f, 0.01f, 100000.0f,
-                                                                    constantAtten, linearAtten, quadAtten, 50);
+            constantAtten, linearAtten, quadAtten, 50);
 
         ::g_DrawDebugSphere(::g_pTheLights->theLights[g_selectedLight].position,
-                            distAt75Percent, 
-                            glm::vec4(0.5f, 0.0f, 0.0f, 1.0f));
+            distAt75Percent,
+            glm::vec4(0.5f, 0.0f, 0.0f, 1.0f));
     }
 
 
     // Draw a green sphere at 50% brightness
     {
         float distAt50Percent = lightHelper.calcApproxDistFromAtten(0.50f, 0.01f, 100000.0f,
-                                                                    constantAtten, linearAtten, quadAtten, 50);
+            constantAtten, linearAtten, quadAtten, 50);
 
         ::g_DrawDebugSphere(::g_pTheLights->theLights[g_selectedLight].position,
-                            distAt50Percent,
-                            glm::vec4(0.0f, 0.5f, 0.0f, 1.0f));
+            distAt50Percent,
+            glm::vec4(0.0f, 0.5f, 0.0f, 1.0f));
     }
 
     // Draw a yellow? sphere at 25% brightness
     {
         float distAt25Percent = lightHelper.calcApproxDistFromAtten(0.25f, 0.01f, 100000.0f,
-                                                                    constantAtten, linearAtten, quadAtten, 50);
+            constantAtten, linearAtten, quadAtten, 50);
 
         ::g_DrawDebugSphere(::g_pTheLights->theLights[g_selectedLight].position,
-                            distAt25Percent,
-                            glm::vec4(0.50f, 0.5f, 0.0f, 1.0f));
+            distAt25Percent,
+            glm::vec4(0.50f, 0.5f, 0.0f, 1.0f));
     }
 
     // Draw a blue sphere at 1% brightness
     {
         float distAt_5Percent = lightHelper.calcApproxDistFromAtten(0.01f, 0.01f, 100000.0f,
-                                                                    constantAtten, linearAtten, quadAtten, 50);
+            constantAtten, linearAtten, quadAtten, 50);
 
         ::g_DrawDebugSphere(::g_pTheLights->theLights[g_selectedLight].position,
-                            distAt_5Percent,
-                            glm::vec4(0.0f, 0.0f, 0.5f, 1.0f));
+            distAt_5Percent,
+            glm::vec4(0.0f, 0.0f, 0.5f, 1.0f));
     }
 
 
@@ -1086,34 +1119,34 @@ void DrawLightDebugSpheres(glm::mat4 matProjection, glm::mat4 matView,
 
 void SetUpTextures(cMesh* pCurrentMesh, GLuint shaderProgramID)
 {
-//    GLuint Texture00 = ::g_pTextureManager->getTextureIDFromName(pCurrentMesh->textureName[0]);
-//    if (Texture00 == 0)
-//    {
-//        Texture00 = ::g_pTextureManager->getTextureIDFromName("Blank_UV_Text_Texture.bmp");
-//    }
-//
-//    // We are just going to pick texture unit 5 (for no reason, just as an example)
-//    //    glActiveTexture(GL_TEXTURE5);       // #5 TEXTURE UNIT
-//    glActiveTexture(GL_TEXTURE0 + 5);       // #5 TEXTURE UNIT
-//    glBindTexture(GL_TEXTURE_2D, Texture00);
-//
-//    //uniform sampler2D texture_00;
-//    GLint texture_00_UL = glGetUniformLocation(shaderProgramID, "texture_00");
-//    glUniform1i(texture_00_UL, 5);     // <- 5, an integer, because it's "Texture Unit #5"
-//    // ***************************************************************
+    //    GLuint Texture00 = ::g_pTextureManager->getTextureIDFromName(pCurrentMesh->textureName[0]);
+    //    if (Texture00 == 0)
+    //    {
+    //        Texture00 = ::g_pTextureManager->getTextureIDFromName("Blank_UV_Text_Texture.bmp");
+    //    }
+    //
+    //    // We are just going to pick texture unit 5 (for no reason, just as an example)
+    //    //    glActiveTexture(GL_TEXTURE5);       // #5 TEXTURE UNIT
+    //    glActiveTexture(GL_TEXTURE0 + 5);       // #5 TEXTURE UNIT
+    //    glBindTexture(GL_TEXTURE_2D, Texture00);
+    //
+    //    //uniform sampler2D texture_00;
+    //    GLint texture_00_UL = glGetUniformLocation(shaderProgramID, "texture_00");
+    //    glUniform1i(texture_00_UL, 5);     // <- 5, an integer, because it's "Texture Unit #5"
+    //    // ***************************************************************
 
-//    uniform sampler2D texture_00;			// 2D meaning x,y or s,t or u,v
-//    uniform sampler2D texture_01;
-//    uniform sampler2D texture_02;
-//    uniform sampler2D texture_03;
-//    uniform sampler2D texture_04;			// 2D meaning x,y or s,t or u,v
-//    uniform sampler2D texture_05;
-//    uniform sampler2D texture_06;
-//    uniform sampler2D texture_07;
-//    //... and so on
-//    //uniform float textureMixRatio[8];
-//    uniform vec4 textureMixRatio_0_3;
-//    uniform vec4 textureMixRatio_4_7;
+    //    uniform sampler2D texture_00;			// 2D meaning x,y or s,t or u,v
+    //    uniform sampler2D texture_01;
+    //    uniform sampler2D texture_02;
+    //    uniform sampler2D texture_03;
+    //    uniform sampler2D texture_04;			// 2D meaning x,y or s,t or u,v
+    //    uniform sampler2D texture_05;
+    //    uniform sampler2D texture_06;
+    //    uniform sampler2D texture_07;
+    //    //... and so on
+    //    //uniform float textureMixRatio[8];
+    //    uniform vec4 textureMixRatio_0_3;
+    //    uniform vec4 textureMixRatio_4_7;
 
 
     {
@@ -1150,28 +1183,28 @@ void SetUpTextures(cMesh* pCurrentMesh, GLuint shaderProgramID)
         glBindTexture(GL_TEXTURE_2D, Texture03);
         GLint texture_03_UL = glGetUniformLocation(shaderProgramID, "texture_03");
         glUniform1i(texture_03_UL, textureUnitNumber);
-    }    
+    }
     // and so on to however many texture you are using
 
 //    uniform vec4 textureMixRatio_0_3;
 //    uniform vec4 textureMixRatio_4_7;
 
     GLint textureMixRatio_0_3_UL = glGetUniformLocation(shaderProgramID, "textureMixRatio_0_3");
-//    GLint textureMixRatio_4_7_UL = glGetUniformLocation(shaderProgramID, "textureMixRatio_4_7");
+    //    GLint textureMixRatio_4_7_UL = glGetUniformLocation(shaderProgramID, "textureMixRatio_4_7");
 
     glUniform4f(textureMixRatio_0_3_UL,
-                pCurrentMesh->textureRatios[0],
-                pCurrentMesh->textureRatios[1],
-                pCurrentMesh->textureRatios[2],
-                pCurrentMesh->textureRatios[3]);
-//    glUniform4f(textureMixRatio_4_7_UL,
-//                pCurrentMesh->textureRatios[4],
-//                pCurrentMesh->textureRatios[5],
-//                pCurrentMesh->textureRatios[6],
-//                pCurrentMesh->textureRatios[7]);
+        pCurrentMesh->textureRatios[0],
+        pCurrentMesh->textureRatios[1],
+        pCurrentMesh->textureRatios[2],
+        pCurrentMesh->textureRatios[3]);
+    //    glUniform4f(textureMixRatio_4_7_UL,
+    //                pCurrentMesh->textureRatios[4],
+    //                pCurrentMesh->textureRatios[5],
+    //                pCurrentMesh->textureRatios[6],
+    //                pCurrentMesh->textureRatios[7]);
 
 
-    // Also set up the height map and discard texture
+        // Also set up the height map and discard texture
 
     {
         // uniform sampler2D heightMapSampler;		// Texture unit 20
@@ -1181,7 +1214,7 @@ void SetUpTextures(cMesh* pCurrentMesh, GLuint shaderProgramID)
         glBindTexture(GL_TEXTURE_2D, Texture20);
         GLint texture_20_UL = glGetUniformLocation(shaderProgramID, "heightMapSampler");
         glUniform1i(texture_20_UL, textureUnitNumber);
-    }    
+    }
 
 
 
@@ -1197,7 +1230,7 @@ void SetUpTextures(cMesh* pCurrentMesh, GLuint shaderProgramID)
         glUniform1i(skyBoxSampler_UL, textureUnit30);
     }
 
-    
+
     return;
 }
 
@@ -1215,12 +1248,12 @@ void DrawObject(cMesh* pCurrentMesh, glm::mat4 matModelParent, GLuint shaderProg
 
     // Translation
     glm::mat4 matTranslate = glm::translate(glm::mat4(1.0f),
-                                            glm::vec3(pCurrentMesh->drawPosition.x,
-                                                      pCurrentMesh->drawPosition.y,
-                                                      pCurrentMesh->drawPosition.z));
+        glm::vec3(pCurrentMesh->drawPosition.x,
+            pCurrentMesh->drawPosition.y,
+            pCurrentMesh->drawPosition.z));
 
 
-       // Rotation matrix generation
+    // Rotation matrix generation
 //    glm::mat4 matRotateX = glm::rotate(glm::mat4(1.0f),
 //                                       pCurrentMesh->drawOrientation.x, // (float)glfwGetTime(),
 //                                       glm::vec3(1.0f, 0.0, 0.0f));
@@ -1235,40 +1268,40 @@ void DrawObject(cMesh* pCurrentMesh, glm::mat4 matModelParent, GLuint shaderProg
 //                                       glm::vec3(0.0f, 0.0, 1.0f));
 
     // Now we are all bougie, using quaternions
-    glm::mat4 matRotation = glm::mat4( pCurrentMesh->get_qOrientation() );
+    glm::mat4 matRotation = glm::mat4(pCurrentMesh->get_qOrientation());
 
 
     // Scaling matrix
     glm::mat4 matScale = glm::scale(glm::mat4(1.0f),
-                                    glm::vec3(pCurrentMesh->drawScale.x,
-                                              pCurrentMesh->drawScale.y,
-                                              pCurrentMesh->drawScale.z));
+        glm::vec3(pCurrentMesh->drawScale.x,
+            pCurrentMesh->drawScale.y,
+            pCurrentMesh->drawScale.z));
     //--------------------------------------------------------------
 
     // Combine all these transformation
     matModel = matModel * matTranslate;         // Done last
 
-//    matModel = matModel * matRotateX;
-//    matModel = matModel * matRotateY;
-//    matModel = matModel * matRotateZ;
-    //
+    //    matModel = matModel * matRotateX;
+    //    matModel = matModel * matRotateY;
+    //    matModel = matModel * matRotateZ;
+        //
     matModel = matModel * matRotation;
 
 
     matModel = matModel * matScale;             // Mathematically done 1st
 
-//        m = m * rotateZ;
-//        m = m * rotateY;
-//        m = m * rotateZ;
+    //        m = m * rotateZ;
+    //        m = m * rotateY;
+    //        m = m * rotateZ;
 
 
 
-   //mat4x4_mul(mvp, p, m);
-//    glm::mat4 mvp = matProjection * matView * matModel;
+       //mat4x4_mul(mvp, p, m);
+    //    glm::mat4 mvp = matProjection * matView * matModel;
 
-//    GLint mvp_location = glGetUniformLocation(shaderProgramID, "MVP");
-//    //glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*) mvp);
-//    glUniformMatrix4fv(mvp_location, 1, GL_FALSE, glm::value_ptr(mvp));
+    //    GLint mvp_location = glGetUniformLocation(shaderProgramID, "MVP");
+    //    //glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*) mvp);
+    //    glUniformMatrix4fv(mvp_location, 1, GL_FALSE, glm::value_ptr(mvp));
 
     GLint matModel_UL = glGetUniformLocation(shaderProgramID, "matModel");
     glUniformMatrix4fv(matModel_UL, 1, GL_FALSE, glm::value_ptr(matModel));
@@ -1291,10 +1324,10 @@ void DrawObject(cMesh* pCurrentMesh, glm::mat4 matModelParent, GLuint shaderProg
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
 
-//        glPointSize(10.0f);
+    //        glPointSize(10.0f);
 
 
-        // uniform bool bDoNotLight;
+            // uniform bool bDoNotLight;
     GLint bDoNotLight_UL = glGetUniformLocation(shaderProgramID, "bDoNotLight");
 
     if (pCurrentMesh->bDoNotLight)
@@ -1308,7 +1341,7 @@ void DrawObject(cMesh* pCurrentMesh, glm::mat4 matModelParent, GLuint shaderProg
         glUniform1f(bDoNotLight_UL, (GLfloat)GL_FALSE);
     }
 
-        //uniform bool bUseDebugColour;	
+    //uniform bool bUseDebugColour;	
     GLint bUseDebugColour_UL = glGetUniformLocation(shaderProgramID, "bUseDebugColour");
     if (pCurrentMesh->bUseDebugColours)
     {
@@ -1316,10 +1349,10 @@ void DrawObject(cMesh* pCurrentMesh, glm::mat4 matModelParent, GLuint shaderProg
         //uniform vec4 debugColourRGBA;
         GLint debugColourRGBA_UL = glGetUniformLocation(shaderProgramID, "debugColourRGBA");
         glUniform4f(debugColourRGBA_UL,
-                    pCurrentMesh->wholeObjectDebugColourRGBA.r,
-                    pCurrentMesh->wholeObjectDebugColourRGBA.g,
-                    pCurrentMesh->wholeObjectDebugColourRGBA.b,
-                    pCurrentMesh->wholeObjectDebugColourRGBA.a);
+            pCurrentMesh->wholeObjectDebugColourRGBA.r,
+            pCurrentMesh->wholeObjectDebugColourRGBA.g,
+            pCurrentMesh->wholeObjectDebugColourRGBA.b,
+            pCurrentMesh->wholeObjectDebugColourRGBA.a);
     }
     else
     {
@@ -1329,7 +1362,7 @@ void DrawObject(cMesh* pCurrentMesh, glm::mat4 matModelParent, GLuint shaderProg
 
 
     // FOR NOW, hardcode the texture settings
-    
+
     // uniform bool bUseVertexColours;
     GLint bUseVertexColours_UL = glGetUniformLocation(shaderProgramID, "bUseVertexColours");
     glUniform1f(bUseVertexColours_UL, (GLfloat)GL_FALSE);
@@ -1338,30 +1371,30 @@ void DrawObject(cMesh* pCurrentMesh, glm::mat4 matModelParent, GLuint shaderProg
 
     SetUpTextures(pCurrentMesh, shaderProgramID);
 
-// *********************************************************************
-    // Is this using the heigth map?
-    // HACK:
+    // *********************************************************************
+        // Is this using the heigth map?
+        // HACK:
     GLint bUseHeightMap_UL = glGetUniformLocation(shaderProgramID, "bUseHeightMap");
     // uniform bool bUseHeightMap;
-    if ( pCurrentMesh->friendlyName == "flames" )
+    if (pCurrentMesh->friendlyName == "flames")
     {
         glUniform1f(bUseHeightMap_UL, (GLfloat)GL_TRUE);
 
         //uniform float heightScale;
         GLint heightScale_UL = glGetUniformLocation(shaderProgramID, "heightScale");
         glUniform1f(heightScale_UL, ::g_HeightAdjust);
-        
+
         //uniform vec2 UVOffset;
         GLint UVOffset_UL = glGetUniformLocation(shaderProgramID, "UVOffset");
         glUniform2f(UVOffset_UL, ::g_UVOffset.x, ::g_UVOffset.y);
 
-       /* GLint textureUnitNumber = 25;
-        GLuint stencilMaskID = ::g_pTextureManager->getTextureIDFromName(pCurrentMesh->textureName[1]);
-        glActiveTexture(GL_TEXTURE0 + textureUnitNumber);
-        glBindTexture(GL_TEXTURE_2D, stencilMaskID);
+        /* GLint textureUnitNumber = 25;
+         GLuint stencilMaskID = ::g_pTextureManager->getTextureIDFromName(pCurrentMesh->textureName[1]);
+         glActiveTexture(GL_TEXTURE0 + textureUnitNumber);
+         glBindTexture(GL_TEXTURE_2D, stencilMaskID);
 
-        GLint bUseDiscardMaskTexture_UL = glGetUniformLocation(shaderProgramID, "maskSamplerTexture01");
-        glUniform1i(bUseDiscardMaskTexture_UL, textureUnitNumber);*/
+         GLint bUseDiscardMaskTexture_UL = glGetUniformLocation(shaderProgramID, "maskSamplerTexture01");
+         glUniform1i(bUseDiscardMaskTexture_UL, textureUnitNumber);*/
 
 
     }
@@ -1369,23 +1402,23 @@ void DrawObject(cMesh* pCurrentMesh, glm::mat4 matModelParent, GLuint shaderProg
     {
         glUniform1f(bUseHeightMap_UL, (GLfloat)GL_FALSE);
     }
-// *********************************************************************
+    // *********************************************************************
 
 
-// *********************************************************************
-    //  Discard texture example
-    //    uniform bool bUseDiscardMaskTexture;
-    //    uniform sampler2D maskSamplerTexture01;
+    // *********************************************************************
+        //  Discard texture example
+        //    uniform bool bUseDiscardMaskTexture;
+        //    uniform sampler2D maskSamplerTexture01;
     {
         GLint bUseDiscardMaskTexture_UL = glGetUniformLocation(shaderProgramID, "bUseDiscardMaskTexture");
 
         // uniform bool bUseHeightMap;
-        if ( pCurrentMesh->friendlyName == "flams" )
+        if (pCurrentMesh->friendlyName == "flams")
         {
             GLint UVOffset_UL = glGetUniformLocation(shaderProgramID, "UVOffset");
             ::g_UVOffset.x = 100.0f;
             glUniform2f(UVOffset_UL, ::g_UVOffset.x, ::g_UVOffset.y);
-            
+
             glUniform1f(bUseDiscardMaskTexture_UL, (GLfloat)GL_TRUE);
 
             //uniform sampler2D maskSamplerTexture01; 	// Texture unit 25
@@ -1397,13 +1430,13 @@ void DrawObject(cMesh* pCurrentMesh, glm::mat4 matModelParent, GLuint shaderProg
             GLint bUseDiscardMaskTexture_UL = glGetUniformLocation(shaderProgramID, "maskSamplerTexture01");
             glUniform1i(bUseDiscardMaskTexture_UL, textureUnitNumber);
 
-            
+
 
         }
         else if (pCurrentMesh->friendlyName == "ground")
         {
             glUniform1f(bUseDiscardMaskTexture_UL, (GLfloat)GL_TRUE);
-            
+
             GLint textureUnitNumber = 25;
             GLuint stencilMaskID = ::g_pTextureManager->getTextureIDFromName(pCurrentMesh->textureName[1]);
             glActiveTexture(GL_TEXTURE0 + textureUnitNumber);
@@ -1433,10 +1466,10 @@ void DrawObject(cMesh* pCurrentMesh, glm::mat4 matModelParent, GLuint shaderProg
         // turn this off
         glDisable(GL_BLEND);
     }
-    
+
     GLint transparencyAlpha = glGetUniformLocation(shaderProgramID, "transparencyAlpha");
     glUniform1f(transparencyAlpha, pCurrentMesh->alpha_transparency);
-    
+
     // *********************************************************************
 
     sModelDrawInfo modelInfo;
@@ -1446,9 +1479,9 @@ void DrawObject(cMesh* pCurrentMesh, glm::mat4 matModelParent, GLuint shaderProg
 
         glBindVertexArray(modelInfo.VAO_ID); 		//  enable VAO (and everything else)
         glDrawElements(GL_TRIANGLES,
-                       modelInfo.numberOfIndices,
-                       GL_UNSIGNED_INT,
-                       0);
+            modelInfo.numberOfIndices,
+            GL_UNSIGNED_INT,
+            0);
         glBindVertexArray(0); 			            // disable VAO (and everything else)
 
     }
@@ -1457,27 +1490,27 @@ void DrawObject(cMesh* pCurrentMesh, glm::mat4 matModelParent, GLuint shaderProg
     // std::vector<cMesh*> vec_pChildMeshes;
 
     glm::mat4 matRemoveScaling = glm::scale(glm::mat4(1.0f),
-                                            glm::vec3( 
-                                                1.0f / pCurrentMesh->drawScale.x,
-                                                1.0f / pCurrentMesh->drawScale.y,
-                                                1.0f / pCurrentMesh->drawScale.z));
+        glm::vec3(
+            1.0f / pCurrentMesh->drawScale.x,
+            1.0f / pCurrentMesh->drawScale.y,
+            1.0f / pCurrentMesh->drawScale.z));
 
     matModel = matModel * matRemoveScaling;
 
-   for ( cMesh* pChild : pCurrentMesh->vec_pChildMeshes )
-   {
+    for (cMesh* pChild : pCurrentMesh->vec_pChildMeshes)
+    {
 
-       // Notice we are passing the "parent" (already transformed) matrix
-       // NOT an identiy matrix
+        // Notice we are passing the "parent" (already transformed) matrix
+        // NOT an identiy matrix
 
-       // if you are using scaling, you can "undo" the scaling
-       // i.e. add the opposite of the scale the parent had
+        // if you are using scaling, you can "undo" the scaling
+        // i.e. add the opposite of the scale the parent had
 
 
 
-       DrawObject(pChild, matModel, shaderProgramID);
+        DrawObject(pChild, matModel, shaderProgramID);
 
-   }//for ( cMesh* pChild 
+    }//for ( cMesh* pChild 
 
 
 
@@ -1500,7 +1533,7 @@ void g_DrawDebugSphere(glm::vec3 position, float scale, glm::vec4 colourRGBA)
     ::g_pDebugSphereMesh->bUseDebugColours = true;
     ::g_pDebugSphereMesh->wholeObjectDebugColourRGBA = colourRGBA;
 
-   
+
     DrawObject(::g_pDebugSphereMesh, glm::mat4(1.0f), ::g_DebugSphereMesh_shaderProgramID);
 
     ::g_pDebugSphereMesh->bIsVisible = OLD_isVisible;
@@ -1575,7 +1608,7 @@ void LoadTheRobotronModels(GLuint shaderProgram)
     vecRobotronModels.push_back("tank2_xyz_rgba_n.ply");
     vecRobotronModels.push_back("tank3_xyz_rgba_n.ply");
     vecRobotronModels.push_back("tank4_xyz_rgba_n.ply");
- //   vecRobotronModels.push_back("tank5_xyz_rgba_n.ply");
+    //   vecRobotronModels.push_back("tank5_xyz_rgba_n.ply");
 
     for (std::string modelName : vecRobotronModels)
     {

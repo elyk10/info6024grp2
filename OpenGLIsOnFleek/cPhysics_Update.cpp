@@ -1,11 +1,13 @@
 #include "cPhysics.h"
 #include "cPlayer.h"
+#include "LuaBrain/cLuaBrain.h"
 
 #include <iostream>
 
 extern glm::vec3 g_cameraEye;
 extern glm::vec3 g_cameraTarget;
 extern AudioManager* m_Audio;
+extern cLuaBrain g_LuaBrain;
 
 // global player
 extern cPlayer* thePlayer;
@@ -13,20 +15,22 @@ extern cPlayer* thePlayer;
 // HACK:
 void g_DrawDebugSphere(glm::vec3 position, float scale, glm::vec4 colourRGBA);
 
-int bong = -1;
-int launcher = -1;
+extern int bong;
+extern int launcher;
+
+
 
 void cPhysics::Update(double deltaTime)
 {
-//	for ( unsigned int index = 0; index !=  this->m_vec_pPhysicalProps.size(); index++ )
-//	{
-//		sPhsyicsProperties* pObject = this->m_vec_pPhysicalProps[index];
-//		
-//		// ...and so on...
-//
-//	}
+	//	for ( unsigned int index = 0; index !=  this->m_vec_pPhysicalProps.size(); index++ )
+	//	{
+	//		sPhsyicsProperties* pObject = this->m_vec_pPhysicalProps[index];
+	//		
+	//		// ...and so on...
+	//
+	//	}
 
-	// Perform the iteration loop
+		// Perform the iteration loop
 	for (sPhsyicsProperties* pObject : this->m_vec_pPhysicalProps)
 	{
 		// Infinite mass? 
@@ -36,7 +40,7 @@ void cPhysics::Update(double deltaTime)
 				if (pObject->health <= 0) {
 
 					thePlayer->respawn(1000, glm::vec3(0.0f, 5.0f, -20.0f));
-					bong = m_Audio->PlayAudio("assets/audio/Bong.mp3", pObject->position);
+					g_LuaBrain.RunScriptImmediately("PlayAudio('assets/audio/Bong.mp3')");
 
 					for (sPhsyicsProperties* pSubObject : this->m_vec_pPhysicalProps) {
 						if (pSubObject->friendlyName == "lavaTrap") {
@@ -57,15 +61,17 @@ void cPhysics::Update(double deltaTime)
 				unsigned int length = m_Audio->GetData("assets/audio/Bong.mp3");
 				if (pbPos >= 1800) {
 					m_Audio->StopAudio(bong);
+					bong = -1;
 				}
 			}
 			if (m_Audio->GetChannelPlaying(launcher)) {
 				unsigned int pbPos;
 				m_Audio->GetPlaybackPosition(launcher, pbPos);
 				unsigned int length = m_Audio->GetData("assets/audio/stonescrape.mp3");
-				std::cout << pbPos << std::endl;
+				//std::cout << pbPos << std::endl;
 				if (pbPos >= 4500) {
 					m_Audio->StopAudio(launcher);
+					launcher = -1;
 				}
 			}
 			// Explicit forward Euler "integration step"
@@ -123,14 +129,14 @@ void cPhysics::Update(double deltaTime)
 
 
 	// See which object is colliding with which object...
-	for (sPhsyicsProperties* pObjectA : this->m_vec_pPhysicalProps )
+	for (sPhsyicsProperties* pObjectA : this->m_vec_pPhysicalProps)
 	{
 		//object will never move, no point checking for collision as the moving ones will do that
 		if (pObjectA->inverse_mass < 0.01f) {
 			continue;
 		}
 		bool touchingHole = false;
-		for (sPhsyicsProperties* pObjectB : this->m_vec_pPhysicalProps )
+		for (sPhsyicsProperties* pObjectB : this->m_vec_pPhysicalProps)
 		{
 			//if (pObjectB->friendlyName != "floor") {
 			//	continue;
@@ -144,20 +150,20 @@ void cPhysics::Update(double deltaTime)
 			if (touchingHole) {
 				continue;
 			}
-// We could do the matrix this way...
-//			if ((pObjectA->shapeType == sPhsyicsProperties::SPHERE) &&
-//				(pObjectA->shapeType == sPhsyicsProperties::PLANE))
-//			{
-//
-//			}// Sphere - Plane
-//
-//			if ((pObjectA->shapeType == sPhsyicsProperties::SPHERE) &&
-//				(pObjectA->shapeType == sPhsyicsProperties::SPHERE))
-//			{
-//
-//			}// Sphere - Sphere
+			// We could do the matrix this way...
+			//			if ((pObjectA->shapeType == sPhsyicsProperties::SPHERE) &&
+			//				(pObjectA->shapeType == sPhsyicsProperties::PLANE))
+			//			{
+			//
+			//			}// Sphere - Plane
+			//
+			//			if ((pObjectA->shapeType == sPhsyicsProperties::SPHERE) &&
+			//				(pObjectA->shapeType == sPhsyicsProperties::SPHERE))
+			//			{
+			//
+			//			}// Sphere - Sphere
 
-			// What's the collision? 
+						// What's the collision? 
 			switch (pObjectA->shapeType)
 			{
 			case sPhsyicsProperties::SPHERE:
@@ -187,7 +193,7 @@ void cPhysics::Update(double deltaTime)
 							pObjectB->velocity = glm::vec3(0.0f, 25.0f, 0.0f);
 							pObjectA->position.y += 0.75f;
 							pObjectA->velocity = glm::vec3(0.0f, 50.0f, 0.0f);
-							launcher = m_Audio->PlayAudio("assets/audio/stonescrape.mp3", pObjectB->position);
+							g_LuaBrain.RunScriptImmediately("PlayAudio('assets/audio/stonescrape.mp3')");
 							touchingHole = true;
 							continue;
 						}
@@ -209,7 +215,7 @@ void cPhysics::Update(double deltaTime)
 							pObjectA->position = pObjectA->oldPosition;
 						}
 						if (glm::length(pObjectA->velocity) > 30.0f) {
-			
+
 							pObjectA->health -= glm::length(pObjectA->velocity) * 0.5f;
 							std::cout << "Hp: " << pObjectA->health << std::endl;
 							pObjectA->velocity = glm::vec3(0.0f);
@@ -221,7 +227,7 @@ void cPhysics::Update(double deltaTime)
 					break;
 				case sPhsyicsProperties::MESH_OF_TRIANGLES_INDIRECT:
 					// Sphere - Mesh triangle (indirect)
-					if ( this->m_Sphere_TriMeshIndirect_IntersectionTest( pObjectA, pObjectB))
+					if (this->m_Sphere_TriMeshIndirect_IntersectionTest(pObjectA, pObjectB))
 					{
 						std::cout << "Hazzah!" << std::endl;
 					}
@@ -232,12 +238,12 @@ void cPhysics::Update(double deltaTime)
 				}//switch (pObjectB->shapeType)
 				break;
 
-//			case sPhsyicsProperties::PLANE:
-//				break;
-//			case sPhsyicsProperties::TRIANGLE:
-//				break;
-// ??			case sPhsyicsProperties::AABB:
-// ??			break;
+				//			case sPhsyicsProperties::PLANE:
+				//				break;
+				//			case sPhsyicsProperties::TRIANGLE:
+				//				break;
+				// ??			case sPhsyicsProperties::AABB:
+				// ??			break;
 
 			case sPhsyicsProperties::CAPSULE:
 				switch (pObjectB->shapeType)
@@ -266,47 +272,47 @@ void cPhysics::Update(double deltaTime)
 				}//switch (pObjectB->shapeType)
 				break;
 
-//			case sPhsyicsProperties::MESH_OF_TRIANGLES_INDIRECT:
-//				switch (pObjectB->shapeType)
-//				{
-//				case sPhsyicsProperties::SPHERE:
-//					break;
-//				case sPhsyicsProperties::PLANE:
-//					break;
-//				case sPhsyicsProperties::TRIANGLE:
-//					break;
-//				case sPhsyicsProperties::AABB:
-//					break;
-//				case sPhsyicsProperties::CAPSULE:
-//					break;
-//				case sPhsyicsProperties::MESH_OF_TRIANGLES_INDIRECT:
-//					break;
-//				case sPhsyicsProperties::MESH_OF_TRIANGLES_LOCAL_VERTICES:
-//					break;
-//				}//switch (pObjectB->shapeType)
-//				break;
-//
-//			case sPhsyicsProperties::MESH_OF_TRIANGLES_LOCAL_VERTICES:
-//				switch (pObjectB->shapeType)
-//				{
-//				case sPhsyicsProperties::SPHERE:
-//					break;
-//				case sPhsyicsProperties::PLANE:
-//					break;
-//				case sPhsyicsProperties::TRIANGLE:
-//					break;
-//				case sPhsyicsProperties::AABB:
-//					break;
-//				case sPhsyicsProperties::CAPSULE:
-//					break;
-//				case sPhsyicsProperties::MESH_OF_TRIANGLES_INDIRECT:
-//					break;
-//				case sPhsyicsProperties::MESH_OF_TRIANGLES_LOCAL_VERTICES:
-//					break;
-//				}//switch (pObjectB->shapeType)
-//				break;
-// 
-			//UNKNOWN_OR_UNDEFINED
+				//			case sPhsyicsProperties::MESH_OF_TRIANGLES_INDIRECT:
+				//				switch (pObjectB->shapeType)
+				//				{
+				//				case sPhsyicsProperties::SPHERE:
+				//					break;
+				//				case sPhsyicsProperties::PLANE:
+				//					break;
+				//				case sPhsyicsProperties::TRIANGLE:
+				//					break;
+				//				case sPhsyicsProperties::AABB:
+				//					break;
+				//				case sPhsyicsProperties::CAPSULE:
+				//					break;
+				//				case sPhsyicsProperties::MESH_OF_TRIANGLES_INDIRECT:
+				//					break;
+				//				case sPhsyicsProperties::MESH_OF_TRIANGLES_LOCAL_VERTICES:
+				//					break;
+				//				}//switch (pObjectB->shapeType)
+				//				break;
+				//
+				//			case sPhsyicsProperties::MESH_OF_TRIANGLES_LOCAL_VERTICES:
+				//				switch (pObjectB->shapeType)
+				//				{
+				//				case sPhsyicsProperties::SPHERE:
+				//					break;
+				//				case sPhsyicsProperties::PLANE:
+				//					break;
+				//				case sPhsyicsProperties::TRIANGLE:
+				//					break;
+				//				case sPhsyicsProperties::AABB:
+				//					break;
+				//				case sPhsyicsProperties::CAPSULE:
+				//					break;
+				//				case sPhsyicsProperties::MESH_OF_TRIANGLES_INDIRECT:
+				//					break;
+				//				case sPhsyicsProperties::MESH_OF_TRIANGLES_LOCAL_VERTICES:
+				//					break;
+				//				}//switch (pObjectB->shapeType)
+				//				break;
+				// 
+							//UNKNOWN_OR_UNDEFINED
 
 			}//switch (pObjectA->shapeType)
 
@@ -326,19 +332,19 @@ void cPhysics::Update(double deltaTime)
 				::g_cameraTarget = pObject->position;
 			}
 			pObject->pTheAssociatedMesh->setDrawPosition(pObject->position - glm::vec3(0.0f, 0.25f, 0.0f));
-//			pObject->pTheAssociatedMesh->setDrawOrientation(pObject->orientation);
+			//			pObject->pTheAssociatedMesh->setDrawOrientation(pObject->orientation);
 			pObject->pTheAssociatedMesh->setDrawOrientation(pObject->get_qOrientation());
 		}
 	}//for (sPhsyicsProperties* pObjectA
 
 
 	// HACK:
-	if ( ! this->m_vecCollisionsThisFrame.empty())
+	if (!this->m_vecCollisionsThisFrame.empty())
 	{
 		std::cout << "BREAK ME!" << std::endl;
-		
+
 		std::cout << this->m_vecCollisionsThisFrame.size() << std::endl;
-		for (sCollisionEvent col:  this->m_vecCollisionsThisFrame)
+		for (sCollisionEvent col : this->m_vecCollisionsThisFrame)
 		{
 			std::cout
 				<< col.pObjectA->getShapeTypeAsString()
