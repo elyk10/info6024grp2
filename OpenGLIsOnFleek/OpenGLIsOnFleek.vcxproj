@@ -232,4 +232,13 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+
+    <ItemGroup>
+	    <dllFiles Include="$(ProjectDir)/lib/Release_x64/*.dll"></dllFiles>
+    </ItemGroup>
+
+	<Target Name="AfterBuild"
+          Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+		<Copy SourceFiles="@(dllFiles)" DestinationFolder="$(SolutionDir)/x64/Release/"/>
+	</Target>
 </Project>
