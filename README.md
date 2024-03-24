@@ -10,6 +10,7 @@ W - forward
 S - backward
 A - left
 D - right
+SPACE_BAR - jump
 
 ESC - to exit program
 
